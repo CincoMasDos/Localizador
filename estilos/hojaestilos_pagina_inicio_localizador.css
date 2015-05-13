@@ -1,0 +1,138 @@
+#todo { 
+	margin:0 auto 0 auto; 
+	width:1010px; 
+}
+	/*.clase_principal {alpha( opacity = 50 );opacity:0.5;}*/
+	.clase_principal {opacity:1;} /*{opacity:0.5;}*/
+
+	.clase_cargando {
+		position:absolute;
+		top:0px;
+		left:0px;
+		width:100%;
+		height:100%;
+	}
+
+body {
+	background-color: #4B4B4B;
+	background-image: url("cabecera.png");
+	background-repeat: repeat-x;
+	background-position: top center;
+	background-attachment: scroll; 
+	font-family: arial, verdana, sans-serif;
+	font-size: 0.9em;
+	/*color: white;*/
+}
+
+
+h1 {
+	float: left;
+	margin: 6px 0 0 0;
+	font-family: arial, verdana, sans-serif;
+	color: white;
+	font-size: 2em;
+	font-weight: bold;
+	/*position: relative;*/
+}
+
+
+h2 {
+	clear: both; 
+	margin:0 0 2px 0;
+	font-family: arial, verdana, sans-serif;
+	color: white;
+	font-size: 1em;
+	font-weight: bold;
+}
+
+a {
+	font-family: arial, verdana, sans-serif;
+	color: white;
+	text-decoration:none; 
+}
+
+a:hover {
+	color:orange;
+	text-decoration:none;
+}
+
+ul,li { 
+	list-style-type: disc;
+        color:orange;
+} 
+
+strong,b {
+	font-weight: bold;
+}
+
+
+.cajas2 {
+	font-family: arial, verdana, sans-serif;
+	font-size: 0.85em;
+	color: white;
+	/*font-weight: bold;*/
+}
+
+
+
+#cabecera { 
+	position: relative;
+	padding: 0 0 0 5px;	
+	width: 950px;
+	height: 48px;
+}
+	#titulo { 
+		height: 40px;
+		width: 860px;
+		float: left;
+		position: relative;
+	}	
+	#logos { 
+		height: 40px;
+		width: 80px; 
+		float: left;
+		position: relative;
+		left: 40px;
+		margin: 6px 0 0 0;
+	}
+
+
+#centro { 
+	margin: 0 0 0 0; /*0 15px 0 0;*/
+	float: middle;
+	width: 400px; 
+        position: relative;
+	top: 20px;
+	left: 120px;
+}
+
+		
+	#enlaces { border: 1px solid orange;
+		float: left;
+		position: relative;
+		margin: 0 0 0 0;
+		padding: 8px 8px 8px 8px; 
+		width: 380px;	
+                height: 500px;	
+	}
+		
+
+	#licenciayadmin { 
+		float: left;
+		position: relative;
+		text-align: center;
+		margin: 0;
+		padding: 5px;
+		width: 338px;		
+	}
+		
+#prompt { 
+	margin: 10px;
+	width: 630px;
+	float: left;
+	position: relative;
+}
+/*border: 1px solid orange;*/
+	
+	
+	

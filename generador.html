@@ -1,0 +1,1129 @@
+<html>
+<head>
+ <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+ <title>Generador de mapas sociales en Valencia</title>
+ <link href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" />
+ <script type="text/javascript" 
+           src="http://maps.google.es/maps/api/js?sensor=false&region=ES&language=ES&libraries=geometry"></script>
+           
+ <script type="text/javascript" src="src/otros/keydragzoom_packed.js" ></script>
+ <script type="text/javascript" src="src/otros/markerwithlabel.js"></script>
+ <script type="text/javascript" src="jOverviewMapControlV3.min.js"></script>
+ <script type="text/javascript" src="src/listenerAbrirGlobo.js" ></script>
+ <script type="text/javascript" src="src/limitesPolyXML.js" ></script>
+ <script type="text/javascript" src="src/generador/descarga/descargaAux_generador.js"></script>
+ <script type="text/javascript" src="src/descargaAux.js" ></script>
+ <script type="text/javascript" src="src/generador/descarga/descarga_prqs_generador.js"></script>
+ <script type="text/javascript" src="src/generador/descarga/descarga_arcips.js" ></script>
+ <script type="text/javascript" src="src/generador/descarga/descarga_vicarias.js" ></script>
+ <script type="text/javascript" src="src/generador/descarga/descarga_comarcas.js" ></script>
+ <script type="text/javascript" src="src/generador/cambiaUnidadMinima.js" ></script>
+ <script type="text/javascript" src="src/generador/cambiaTipoDato.js" ></script>
+ <script type="text/javascript" src="src/generador/selectVariables.js" ></script>
+ <script type="text/javascript" src="src/generador/selectColor.js" ></script>
+ <script type="text/javascript" src="src/generador/capas.js" ></script>
+ <script type="text/javascript" src="src/generador/estableceRGB.js" ></script>
+ <script type="text/javascript" src="src/generador/separadorMiles.js" ></script>
+ <script type="text/javascript" src="src/generador/buscaEtiq.js" ></script>
+ <script type="text/javascript" src="src/generador/ponTextoVar.js" ></script>
+ <script type="text/javascript" src="src/generador/construyeLeyenda.js" ></script>
+ <script type="text/javascript" src="src/generador/ponEtiquetaAux.js" ></script>
+ <script type="text/javascript" src="src/generador/ponEtiqueta.js" ></script>
+ <script type="text/javascript" src="src/generador/dibujaEntidades.js" ></script>
+ <script type="text/javascript" src="src/generador/consultaBDaux.js" ></script>
+ <script type="text/javascript" src="src/generador/consultaBD.js" ></script>
+ <script type="text/javascript" src="src/generador/cambiaColor.js" ></script>
+ <script type="text/javascript" src="src/generador/calculaGVF.js" ></script>
+ <script type="text/javascript" src="src/informe.js" ></script>
+ <script type="text/javascript" src="src/generador/otros/geostats.js" ></script>
+ <script type="text/javascript" src="src/generador/otros/jenks.util.js" ></script>      
+      
+ <!--<link rel="stylesheet" type="text/css" 
+       href="http://yui.yahooapis.com/2.8.2r1/build/reset/reset-min.css">--> 
+ <link rel="stylesheet" type="text/css" href="estilos/reset.css" /> <!--Reseteador de estilos-->
+ <link rel="stylesheet" type="text/css" href="estilos/hojaestilos_generador.css" />
+   
+ <script type="text/javascript">
+
+   // *****************************************************************************************
+   // *************** Declaración y/o inicialización de variables globales ********************
+   // *****************************************************************************************
+   
+   var map;      
+   var centro = new google.maps.LatLng(39.469969,-0.376449);
+   var bounds = new google.maps.LatLngBounds(); // controla los límites de visibilidad del mapa
+   var imagenBounds;                            // para las capas fondo negro y fondo blanco
+      
+   var infoGlobo = new google.maps.InfoWindow();
+   var miMensaGlobo = "<div class='globos2'></div>";
+   var Globo = false;                           // Controla si hay un infoGlobo abierto
+      
+   var controlHerramientas = true; // Controla la visibilida del panel lateral de herramientas
+   var anyadir_consulta = false;   // Controla si el resultado de una consulta se añade a las
+                                   // existentes o por el contrario se limpian el mapa y el
+                                   // informe antes.
+   
+   var ejecutarConsulta = true;    // Controla si se sigue procesando una consulta
+      
+   var hayLeyenda = false;         // Controla si está dibujada la leyenda de las consultas
+   var hayLeyendaLimites = false;  // Controla si está dibujada la leyenda de los limites
+   
+   var etiqLeyenda;                // Leyendas colocadas como etiquetas para que sean móviles
+   var etiqLeyendaLimites; 
+            
+   // Variables que recogen los valores de los formularios de consulta
+      
+   var udMinima;
+   var areasEstudioSel = new Array();
+      
+   var modoConsulta;
+      
+   var tipoDato; 
+   var variable;
+     var textovar; // Descripción (etiqueta) de la variable.
+   var tipoBloque;
+   var operador;
+   var valor;
+   var color;
+   var intervalo;
+   var color1;
+   var color2;
+   var colorSitu1;
+   var colorSitu2;
+   var colorSitu3;
+   var colorSitu4;
+   var colorSitu5;
+   var colorSitu6;
+   var colorSitu7;
+   var colorSitu8;
+   var colorSitu9;
+   var colorSitu10;
+      
+   // Variables que recogen el color y el grosor seleccioonados
+   // para los límites territoriales 
+   var colorLimPrq;
+   var colorLimArcip;
+   var colorLimVic;
+   var colorLimComarc;
+   var grosorLimPrq;
+   var grosorLimArcip;
+   var grosorLimVic;
+   var grosorLimComarc;
+      
+   // Listas que almacenan los 3 valores [R,G,B] de los colores
+   // inicio (color1) y final (color2) para la rampa de color
+   var color1RGB = new Array(); 
+   var color2RGB = new Array(); 
+      
+   // var variables = [...] declarada en src/generador/selectVariables.js
+    
+   var GVF; //Variable que estima la bondad de la clasificación por cortes naturales
+   var texto = ""; // contenido de la Leyenda
+                 
+      
+   // Listas que almacenan los polígonos que servirán para dibujar las entidades
+   // poligonales devueltas en la consulta
+   var polis_prqs = new Array();
+   var polis_arcips = new Array();
+   var polis_vicarias = new Array();
+   var polis_comarcas = new Array();
+      
+   // Listas que almacenan los polígonos que servirán para dibujar los diferentes
+   // límites territoriales
+   var polisFondoPrq = new Array();
+   var polisFondoArcip = new Array();
+   var polisFondoVicarias = new Array();
+   var polisFondoComarcas = new Array();
+                                 
+   // Listas que almacenan los polígonos dibujados en el mapa y sus etiquetas
+   var polisConsulta = new Array();
+   var etiqConsulta = new Array();
+
+      
+   // Variables globales para la consulta de situaciones más frecuentes
+      
+   var coloresSitu = new Array(); // Almacenará el color de representación de cada situación
+   var descSituaciones = [
+      "Personas inmigrantes sin papeles",
+      "Personas solas",
+      "Parejas jóvenes con hijos",
+      "Familias con enfermos en casa",
+      "Familias con algún miembro con adicciones",
+      "Ancianos que han acogido a sus hijos",
+      "Personas sin hogar, de paso o establecidas en la zona",
+      "Personas con viviendas precarias",
+      "Mujeres solas con hijos",
+      "Ancianos solos"
+   ];
+   var frecuSitu; // indicará si queremos ver las primeras, segundas, ... 
+                  // situaciones más frecuentes
+      
+      
+   // Variables globales que contienen el código y la descripción de las
+   // entiddaes poligonales: comarca, arciprestazgo y vicaría.
+   // Entre otras cosas, sirven para rellenar el selector de áreas de estudio
+      
+   var comarcas = [
+      ["0","--Todas las comarcas--"],
+      ["1","ALT VINALOPO"],
+      ["2","CAMP DE TURIA"],
+      ["3","EL CAMP DE MORVEDRE"],
+      ["4","EL COMTAT"],
+      ["5","EL VALLE DE AYORA"],
+      ["6","L'ALCOIA"],
+      ["7","L'HORTA NORD"],
+      ["8","L'HORTA OEST"],
+      ["9","L'HORTA SUD"],
+      ["10","LA CANAL DE NAVARRES"],
+      ["11","LA COSTERA"],
+      ["12","LA HOYA DE BUÑOL"],
+      ["13","LA MARINA ALTA"],
+      ["14","LA RIBERA ALTA"],
+      ["15","LA RIBERA BAIXA"],
+      ["16","LA SAFOR"],
+      ["17","LA VALL D'ALBAIDA"],
+      ["18","LOS SERRANOS"],
+      ["19","RINCON DE ADEMUZ"],
+      ["20","REQUENA-UTIEL"],
+      ["21","VALENCIA"]
+   ];
+
+   var vicarias = [
+      ["100","--Todas las Vicarías--"],
+      ["100b","--Todas las Vicarías menos I y II--"],
+      ["101","Vicaría I: Valencia ciudad Sur"],
+      ["102","Vicaría II: Valencia ciudad Norte"],
+      ["103","Vicaría III: Área metropolitana"],
+      ["104","Vicaría IV: Moncada-Sagunto"],
+      ["105","Vicaría V: Lliria-Requena-Ademuz"],
+      ["106","Vicaría VI: Xàtiva-Alcoi-Intinyent"],
+      ["107","Vicaría VII: La Ribera"],
+      ["108","Vicaría VIII: La Valldigna-La Safor-La Marina"]
+   ];
+
+   var arciprestazgos = [
+      ["200","--Todos los Arciprestazgos--"],
+      ["200b","--Todos los Arciprestazgos menos los de Vic.I y II--"],
+      ["201","Arcip.1 El Santo Cáliz y Nuestra Señora de los Desamparados"],
+      ["202","Arcip.2 Santo Tomás de Villanueva"],
+      ["203","Arcip.3 San Miguel de Soternes"],
+      ["204","Arcip.4 Jesús"],
+      ["205","Arcip.5 Madre Sacramento"],
+      ["206","Arcip.6 Santos Patronos"],
+      ["207","Arcip.7 San Pío X"],
+      ["208","Arcip.8 San Roque"],
+      ["209","Arcip.9 Mare de Déu de Campanar"],
+      ["210","Arcip.10 San Juan de Ribera"],
+      ["211","Arcip.11 Cristo Redentor"],
+      ["212","Arcip.12 Mare de Déu del Popul"],
+      ["213","Arcip.13 Mare de Déu del Do"],
+      ["214","Arcip.14 Santa Bárbara"],
+      ["215","Arcip.15 Santa María del Puig"],
+      ["216","Arcip.16 Sants de la Pedra"],
+      ["217","Arcip.17 Santo Espíritu"],
+      ["218","Arcip.18 Sant Vicent Ferrer"],
+      ["219","Arcip.19 San Antonio Abad"],
+      ["220","Arcip.20 San Luis Bertrán"],
+      ["221","Arcip.21 Beato Francisco Gálvez"],
+      ["222","Arcip.22 Virgen de Gracia"],
+      ["223","Arcip.23 Mare de Déu de la Seu"],
+      ["224","Arcip.24 Mare de Déu del Remei"],
+      ["225","Arcip.25 La Purísima"],
+      ["226","Arcip.26 Mare de Déu del Miracle"],
+      ["227","Arcip.27 Mare de Déu d'Agres"],
+      ["228","Arcip.28 Mare de Déu dels Lliris"],
+      ["229","Arcip.29 Sants Bernat, María i Gràcia"],
+      ["230","Arcip.30 Santos Abdón y Senen"],
+      ["231","Arcip.31 Beata Josefa Naval Girbés"],
+      ["232","Arcip.32 Mare de Déu del Rebollet"],
+      ["233","Arcip.33 Sant Francesc de Borja"],
+      ["234","Arcip.34 Preciosísima Sang"]
+   ];      
+      
+      
+
+
+   // *****************************************************************************************
+   // ***************    Función load      ****************************************************
+   // *****************************************************************************************
+   // 
+   // Descripción: función de iniciliazación (carga el mapa...)
+   // Llamada por:
+   //      - onload del body
+   // Invoca a:
+   //      - jOverviewMapControl
+   //      - enableKeyDragZoom
+   // Recibe:
+   //      nada
+   // Devuelve:
+   //    nada 
+   // Variables globales:
+   //      - map
+   //      - bounds  
+   //      - centro
+   //      - Globo
+
+   function load() {
+       
+      // Se añade la condición de que los límites incluyan dos puntos dados
+      bounds.extend(new google.maps.LatLng(39.4374,-0.4299));
+      bounds.extend(new google.maps.LatLng(39.5034,-0.3243));
+       
+      // Opciones de mapa
+      var misOpciones = {
+         center: centro,
+         scaleControl: true,
+         mapTypeId: google.maps.MapTypeId.ROADMAP,
+         mapTypeControlOptions: {
+              position: google.maps.ControlPosition.TOP_LEFT}
+      };
+
+      // Definimos el mapa
+      map = window.map = new google.maps.Map(document.getElementById("map"),misOpciones);
+      
+      // Ajustamos el mapa a los límites iniciales  
+      map.fitBounds(bounds);
+               
+      // Listener que resitúa el mapa al centro después de cerrar el infoGlobo
+      google.maps.event.addListener(infoGlobo, "closeclick", function() {
+         map.setCenter(centro);
+         Globo = false;
+      });
+         
+      // Listener que al hacer click en mapa, si hay globo abierto, lo cierra y resitúa el mapa
+      google.maps.event.addListener(map, "click", function(){
+         if (Globo) { 
+            infoGlobo.close();
+            map.setCenter(centro);
+            Globo = false;
+         }
+      });
+         
+      // DragZoom con tecla "alt"
+      map.enableKeyDragZoom({
+         key: "alt",
+         boxStyle: {
+            border: "2px dashed black",
+            backgroundColor: "red",
+            opacity: 0.5
+         },
+         paneStyle: {
+            backgroundColor: "gray",
+            opacity: 0.2
+         }
+      });
+
+      // En el select "selectUnidadMinima" establecemos como opción predeterminada la de 
+      // "id_comarca"
+      document.getElementById("selectUnidadMinima").value= "id_comarca";
+      udMin = "id_comarca";
+      // y actualizamos el select "selectAreaDeEstudio" ejecutando la siguiente función
+      cambiaUnidadMinima();
+      
+         
+      // Rellenamos igualmente los selectores de color y de variables y establecemos
+      // los valores por defecto
+      
+      selectColor();
+         document.getElementById("color1").value = "#FFFFE0";
+         document.getElementById("color1").style.background = "#FFFFE0";
+         document.getElementById("color1").style.color = "#FFFFE0";
+         document.getElementById("color2").value = "#800000";
+         document.getElementById("color2").style.background = "#800000";
+         document.getElementById("color2").style.color = "#800000";
+         document.getElementById("colorIndividual").value = "#800000";
+         document.getElementById("colorIndividual").style.background = "#800000";
+         document.getElementById("colorIndividual").style.color = "#800000";
+         document.getElementById("colorEtiq").value = "#000000";
+         document.getElementById("colorEtiq").style.background = "#000000";
+         document.getElementById("colorEtiq").style.color = "#000000";
+         document.getElementById("colorLimPrq").value = "#8B0000";
+         document.getElementById("colorLimPrq").style.background = "#8B0000";
+         document.getElementById("colorLimPrq").style.color = "#8B0000";
+         document.getElementById("colorLimArcip").value = "#000000";
+         document.getElementById("colorLimArcip").style.background = "#000000";
+         document.getElementById("colorLimArcip").style.color = "#000000";
+         document.getElementById("colorLimVic").value = "#FF0000";
+         document.getElementById("colorLimVic").style.background = "#FF0000";
+         document.getElementById("colorLimVic").style.color = "#FF0000";
+         document.getElementById("colorLimComarc").value = "#006400";
+         document.getElementById("colorLimComarc").style.background = "#006400";
+         document.getElementById("colorLimComarc").style.color = "#006400";
+         document.getElementById("colorSitu1").value = "#1E90FF";
+         document.getElementById("colorSitu1").style.background = "#1E90FF";
+         document.getElementById("colorSitu1").style.color = "#1E90FF";
+         document.getElementById("colorSitu2").value = "#87CEFA";
+         document.getElementById("colorSitu2").style.background = "#87CEFA";
+         document.getElementById("colorSitu2").style.color = "#87CEFA";
+         document.getElementById("colorSitu3").value = "#9ACD32";
+         document.getElementById("colorSitu3").style.background = "#9ACD32";
+         document.getElementById("colorSitu3").style.color = "#9ACD32";
+         document.getElementById("colorSitu4").value = "#FF0000";
+         document.getElementById("colorSitu4").style.background = "#FF0000";
+         document.getElementById("colorSitu4").style.color = "#FF0000";
+         document.getElementById("colorSitu5").value = "#9400D3";
+         document.getElementById("colorSitu5").style.background = "#9400D3";
+         document.getElementById("colorSitu5").style.color = "#9400D3";
+         document.getElementById("colorSitu6").value = "#A0522D";
+         document.getElementById("colorSitu6").style.background = "#A0522D";
+         document.getElementById("colorSitu6").style.color = "#A0522D";
+         document.getElementById("colorSitu7").value = "#FFFF00";
+         document.getElementById("colorSitu7").style.background = "#FFFF00";
+         document.getElementById("colorSitu7").style.color = "#FFFF00";
+         document.getElementById("colorSitu8").value = "#6B8E23";
+         document.getElementById("colorSitu8").style.background = "#6B8E23";
+         document.getElementById("colorSitu8").style.color = "#6B8E23";
+         document.getElementById("colorSitu9").value = "#B8860B";
+         document.getElementById("colorSitu9").style.background = "#B8860B";
+         document.getElementById("colorSitu9").style.color = "#B8860B";
+         document.getElementById("colorSitu10").value = "#FFA500";
+         document.getElementById("colorSitu10").style.background = "#FFA500";
+         document.getElementById("colorSitu10").style.color = "#FFA500";
+      
+      selectVariables();
+         document.getElementById("variableIndividual").value= "field_prq_est01_value";
+         document.getElementById("variableEnBloque").value= "field_prq_est01_value";
+      
+        
+      // Indicamos los valores por defecto del resto de elementos de los formularios
+      
+      document.getElementById("tipoDatoIndividual").value= "1";
+      document.getElementById("tipoDatoEnBloque").value= "1";
+         
+      document.getElementById("capaConsultas").checked = false;
+      document.getElementById("capaEtiquetasConsultas").checked = false;
+      document.getElementById("idEtiquetasConsultas").checked = false;
+      document.getElementById("nombreEtiquetasConsultas").checked = false;
+      document.getElementById("valorEtiquetasConsultas").checked = false;
+      document.getElementById("fondoBlanco").checked = false;
+      document.getElementById("fondoNegro").checked = false;
+      document.getElementById("controles").checked = true;
+      document.getElementById("escalagrafica").checked = true;
+      document.getElementById("capaLeyenda").checked = false;
+      document.getElementById("capaLeyendaLimites").checked = false;
+      document.getElementById("capaFondoPrq").checked = false;
+      document.getElementById("capaFondoArcip").checked = false;
+      document.getElementById("capaFondoVicarias").checked = false;
+      document.getElementById("capaFondoComarcas").checked = false;
+
+
+      // También establecemos como modo de consulta el de "en bloque"
+      // y actualizamos el panel de herramientas
+      document.formTipoConsulta.tipo[0].checked = true;         
+      tipoConsulta();
+      
+      // Finalmente ejecutamos las funciones que crean los polígonos de las diferentes
+      // entidades. Tanto para representarlas tras las consultas como para mostrar sus
+      // límites territoriales
+         
+      descarga_prqs_generador();
+      descarga_arcips();
+      descarga_vicarias();
+      descarga_comarcas();
+         
+                  
+   }// fin function load()
+      
+   
+
+      
+   //******************* Funciones para limpiar el mapa *************************
+    
+   function limpiamapa() {
+      infoGlobo.close();
+      bounds = new google.maps.LatLngBounds();
+      for (var i = 0; i < polisConsulta.length; i++) {
+         polisConsulta[i].setMap(null);
+         etiqConsulta[i][0].setMap(null);
+      }
+      document.getElementById("capaEtiquetasConsultas").checked = false;
+      if (hayLeyenda) {
+         etiqLeyenda.setMap(null);
+         hayLeyenda = false;
+         document.getElementById("capaLeyenda").checked = false;
+      }
+      polisConsulta.length = 0;
+      etiqConsulta.length = 0;
+   }
+      
+   function limpiarConsultas() {
+      limpiamapa();
+      anyadir_consulta = false;
+      document.getElementById("capaConsultas").checked = false;
+   }
+      
+   //******************* fin funciones para limpiar el mapa *************************
+      
+      
+   //******************* Funciones panel de herramientas ******************************
+            
+   function tab(panel) {
+      pnl  = document.getElementById(panel);
+      pnls = document.getElementById('paneles').getElementsByTagName('div');
+      
+      // eliminamos las clases de las pestañas
+      for(i=0; i< pnls.length; i++) {
+         pnls[i].style.display = 'none';
+      }
+      
+      // Añadimos la clase "actual" a la pestaña activa
+      pnl.style.display = 'block';
+   }      
+
+
+   function tipoConsulta() {
+      var i;
+      //comprobar tipo consulta seleccionada
+      for (i=0;i<document.formTipoConsulta.tipo.length;i++){ 
+         if (document.formTipoConsulta.tipo[i].checked){
+            break; 
+         }
+      }
+                
+      switch (document.formTipoConsulta.tipo[i].value) {
+         case "1"://en bloque
+            tab('consultaEnBloque');
+            modoConsulta = "bloque";
+              break;
+         case "2"://individual
+            tab('consultaIndividual');
+            modoConsulta = "individual";
+            break;
+         case "3"://situaciones más frecuentes
+            tab('consultaSituaciones');
+            modoConsulta = "situaciones";
+            break;
+      }
+   }
+      
+   //************************ fin funciones panel de herramientas ********************
+      
+
+   function limpiaTexto(Texto) {
+      Texto.value = ""
+   }
+
+ </script>
+   
+</head>
+
+<body onload="load()">
+
+   <!-- ********************************************************************************** -->   
+   <!-- ****************    Ventana mapa     ********************************************* -->
+   <!-- ********************************************************************************** -->
+   <div id="map" ></div>
+   
+
+   <!-- ********************************************************************************** -->   
+   <!-- *******************    Cabecera     ********************************************** -->
+   <!-- ********************************************************************************** --> 
+  
+   <div id="titulo">
+      <h1><a href="http://www.utopika.upv.es/caritas/generador.html">
+         Generador de Mapas Sociales en Valencia</a></h1>
+   </div>
+   <div id="logos">
+      <a href="http://www.caritasvalencia.org/">
+         <img title="Cáritas Diocesana de Valencia"
+              src="imagenes/logo_caritas.png" 
+              width= "35" height = "35"
+              border="0">
+      </a>
+      <a href="http://www.utopika.upv.es/">
+         <img title="Utopika"
+              src="imagenes/logo_utopika.png" 
+              width= "35" height = "35"
+              border="0">
+      </a>
+   </div>
+   <!-- *************** fin cabecera ************************************* -->
+ 
+      
+   <!-- *************** Columna lateral ********************************** -->
+
+   <div id="lateral">
+   
+      <!-- ****************************************************************************** -->   
+      <!-- ******************* ud Minima y territorio *********************************** -->
+      <!-- ****************************************************************************** -->  
+      
+      <div id="udMinimayTerritorio">
+      
+         <h2><strong>Unidad mínima y área de estudio:</strong></h2>
+      
+         <div id="BloqueUnidadMinima" class="texto">
+            Unidad mínima:<br> 
+            <select id="selectUnidadMinima" class="cajas" style="height: 23px;"
+                    title="Unidad mínima de análisis"
+                    onchange="cambiaUnidadMinima()">
+                    <optgroup label="Límites administrativos">
+                      <option value="field_prq_id_comarca_value" selected>Comarca</option>
+                    </optgroup>
+                    <optgroup label="Demarcaciones de Cáritas">
+                      <option value="field_prq_id_value">Parroquia</option>
+                      <option value="field_prq_id_arcip_value">Arciprestazgo</option>
+                      <option value="field_prq_id_vicaria_value">Vicaría</option>
+                    </optgroup>
+            </select>
+         </div>
+      
+         <div id="BloqueAreaDeEstudio" class="texto">
+            Área de estudio:<br> 
+            <select id="selectAreaDeEstudio"
+                    title="Área de estudio" 
+                    class="cajas"
+                    multiple="multiple"
+                    size="5">
+            </select>
+         </div>
+      
+      </div><!--udMinimayTerritorio-->
+      
+      
+      <!-- ******************************************************************************* -->   
+      <!-- ****************** Herramientas de consulta *********************************** -->
+      <!-- ******************************************************************************* --> 
+      
+      <div id="BloqueHerramientasDeConsulta">
+      
+         <div id="TituloEligeHerramienta"><h2>Elige el tipo de consulta:</h2></div>
+         
+         <div id="LimpiarConsultas">
+            <input title="Limpiar consultas"
+                   type="image"
+                   onclick="limpiarConsultas()"
+                   src="imagenes/limpiar.png" />
+         </div>
+         
+         <form name="formTipoConsulta" class="texto"
+               onclick="tipoConsulta()">
+             
+             <div id="enBloque">
+                <input type="radio" 
+                       name="tipo" 
+                       title="Consulta en bloque"
+                       value="1" checked />
+                       En bloque
+             </div>          
+             
+             <div id="individual">
+                <input type="radio" 
+                       name="tipo"
+                       title="Consulta individual"
+                       value="2" /> 
+                       Individual
+             </div>
+             
+             <!--<div id="situaciones">
+                <input type="radio" 
+                       name="tipo" 
+                       title="Situaciones más frecuentes"
+                       value="3" /> 
+                       Situaciones
+             </div>-->
+         
+         </form>
+
+         <div id="HerramientasDeConsulta">
+         
+            <div id="paneles">
+            
+            
+               <!-- ********************************************************************** -->
+               <!-- ************** Panel de consulta EN BLOQUE *************************** -->
+               <!-- ********************************************************************** -->
+               
+               <div id="consultaEnBloque">
+               
+                  <form name="consultaEnBloqueForm" 
+                        onsubmit="consultaBD(); return false">
+                        
+                     <select id="tipoDatoEnBloque" class="cajas" 
+                             style="height: 23px; width: 50px"
+                             onchange="cambiaTipoDato()">
+                             <option value="1" selected>nº</option>
+                             <option value="2">% (en el Área de estudio) </option>
+                             <option value="3">% (en toda la Diócesis)</option>
+                             <option value="4">% del TOTAL padre (en el Área de estudio)</option>
+                             <option value="5">% del TOTAL padre (en toda la Diócesis)</option>
+                     </select>
+                     
+                     <select id="variableEnBloque" class="cajas" 
+                             style="height: 23px; width: 50px"
+                             onchange="">
+                     </select>
+                     
+                     <select id="tipoBloque" class="cajas" 
+                             style="height: 23px; width: 45px"
+                             onchange="">
+                             <option value="num" selected>
+                             Nº de intervalos</option>
+                             <option value="amp">
+                             Amplitud de intervalo</option>
+                             <option value="cuant">
+                             Cuantiles (igual nº de elementos/intervalo)</option>
+                             <option value="nat">
+                             Cortes naturales (Jenks)</option>
+                     </select>
+                     
+                     <input class="cajas" type="text" style="height: 23px; width: 55px"
+                            title= "Intervalo de estudio"
+                            onfocus="limpiaTexto(this)" 
+                            value="intervalo"
+                            class="cajas" 
+                            id="intervalo"/>
+                     
+                     <select id="color1" class="cajas" style="height: 23px; width: 40px"
+                             onchange="cambiaColor('color1')">
+                     </select>
+                     
+                     <select id="color2" class="cajas" style="height: 23px; width: 40px"
+                             onchange="cambiaColor('color2')">
+                     </select>      
+                     
+                     <input title="Realizar consulta"
+                            type="image" 
+                            src="imagenes/buscar.png" />   
+                  
+                  </form> 
+                             
+               </div><!--consultaEnBloque-->
+               
+                  
+               <!-- ********************************************************************** -->
+               <!-- ************** Panel de consulta INDIVIDUAL ************************** -->
+               <!-- ********************************************************************** -->
+               
+               <div id="consultaIndividual">
+               
+                  <form name="consultaIndividualForm" 
+                        onsubmit="consultaBD(); return false">
+                        
+                     <select id="tipoDatoIndividual" class="cajas" 
+                             style="height: 23px; width: 50px"
+                             onchange="cambiaTipoDato()">
+                             <option value="1" selected>
+                             nº</option>
+                             <option value="2">
+                             % (en el Área de estudio) </option>
+                             <option value="3">
+                             % (en toda la Diócesis)</option>
+                             <option value="4">
+                             % del TOTAL padre (en el Área de estudio) </option>
+                             <option value="5">
+                             % del TOTAL padre (en toda la Diócesis)</option>
+                     </select>
+                     
+                     <select id="variableIndividual" class="cajas" 
+                             style="height: 23px; width: 85px"
+                             onchange="">
+                     </select>
+                     
+                     <select id="operadorIndividual" class="cajas" 
+                             style="height: 23px; width: 45px"
+                             onchange="">
+                             <option value="=" selected>=</option>
+                             <option value=">">></option>
+                             <option value="<"><</option>
+                             <option value=">=">> ó =</option>
+                             <option value="<=">< ó =</option>
+                             <option value="[,]">Intervalo: número1-número2</option>
+                     </select>
+                     
+                     <input class="cajas" type="text" style="height: 23px; width: 45px"
+                            onfocus="limpiaTexto(this)" 
+                            value="valor"
+                            class="cajas" 
+                            id="valorIndividual"/>
+
+                     <select id="colorIndividual" class="cajas" 
+                             style="height: 23px; width: 40px"
+                             onchange="cambiaColor('colorIndividual')">                         
+                     </select>   
+                     
+                     <input title="Añadir consulta al mapa"
+                            type="image" 
+                            src="imagenes/anyadir_consulta.png" />                        
+                  
+                  </form>               
+               
+               </div><!--consultaIndividual-->
+                  
+               
+               <!-- ********************************************************************** -->
+               <!-- ******* Panel de consulta SITUACIONES MÁS FRECUENTES ***************** -->
+               <!-- ********************************************************************** -->
+               
+               <div id="consultaSituaciones">
+               
+                  <form name="consultaSituacionesForm" 
+                        onsubmit="consultaBD(); return false">
+               
+                     <select id="colorSitu1" class="cajas" style="height: 23px; width: 40px"
+                             title="Personas inmigrantes sin papeles"
+                             onchange="cambiaColor('colorSitu1')">
+                     </select>   
+               
+                     <select id="colorSitu2" class="cajas" style="height: 23px; width: 40px"
+                             title="Personas solas"
+                             onchange="cambiaColor('colorSitu2')">
+                     </select>   
+               
+                     <select id="colorSitu3" class="cajas" style="height: 23px; width: 40px"
+                             title="Parejas jóvenes con hijos"
+                             onchange="cambiaColor('colorSitu3')">
+                     </select>   
+               
+                     <select id="colorSitu4" class="cajas" style="height: 23px; width: 40px"
+                             title="Familias con enfermos en casa"
+                             onchange="cambiaColor('colorSitu4')">
+                     </select>   
+               
+                     <select id="colorSitu5" class="cajas" style="height: 23px; width: 40px;"
+                             title="Familias con algún miembro con adicciones"
+                             onchange="cambiaColor('colorSitu5')">
+                     </select>
+               
+                     <select id="frecuSitu" class="cajas" style="height: 23px; width: 100px;"
+                             title="Frecuencia de situaciones">
+                             <option value="1<sup>as</sup>" selected>
+                             Situaciones más frecuentes</option>
+                             <option value="2<sup>as</sup>">
+                             Segundas situaciones más frecuentes</option>
+                             <option value="3<sup>as</sup>">
+                             Terceras situaciones más frecuentes</option>
+                             <option value="4<sup>as</sup>">
+                             Cuartas situaciones más frecuentes</option>
+                     </select>
+                     
+                     <select id="colorSitu6" class="cajas" style="height: 23px; width: 40px"
+                             title="Ancianos que han acogido a sus hijos"
+                             onchange="cambiaColor('colorSitu6')">
+                     </select>   
+                     
+                     <select id="colorSitu7" class="cajas" style="height: 23px; width: 40px"
+                             title="Personas sin hogar, de paso o establecidas en la zona"
+                             onchange="cambiaColor('colorSitu7')">
+                     </select>   
+                     
+                     <select id="colorSitu8" class="cajas" style="height: 23px; width: 40px"
+                             title="Personas con viviendas precarias"
+                             onchange="cambiaColor('colorSitu8')">
+                     </select>   
+                     
+                     <select id="colorSitu9" class="cajas" style="height: 23px; width: 40px"
+                             title="Mujeres solas con hijos"
+                             onchange="cambiaColor('colorSitu9')">
+                     </select>   
+                     
+                     <select id="colorSitu10" class="cajas" style="height: 23px; width: 40px"
+                             title="Ancianos solos"
+                             onchange="cambiaColor('colorSitu10')">
+                     </select>   
+                     
+                     <input title="Realizar consulta"
+                            type="image" 
+                            src="imagenes/buscar.png" />   
+                  
+                  </form>         
+               
+               </div><!--consultaSituaciones-->
+                  
+            </div><!--paneles-->
+         
+         </div><!--HerramientasDeConsulta-->
+      
+      </div><!--BloqueHerramientasDeConsulta-->
+         
+      
+      <!-- ******************************************************************************* -->   
+      <!-- *********************      Capas      ***************************************** -->
+      <!-- ******************************************************************************* -->
+            
+      <div id="capas">   
+         
+         <div id="tituloCapas">   
+            <h2><strong>Capas visibles</strong></h2>
+         </div>
+            
+         <div id="bloqueConsultas" class="texto">
+            <input type="checkbox" 
+                   id="capaConsultas"
+                   onclick="capaConsultas()"
+                   title="Resultados de las consultas"> Consultas<br>
+            <input type="checkbox" 
+                   id="capaLeyenda"
+                   onclick="capaLeyenda()"
+                   title="Leyenda del mapa"> Leyenda<br>
+                                 
+            <div id="bordebloqueEtiquetas">
+            
+               <input type="checkbox" 
+                      id="capaEtiquetasConsultas"
+                      onclick="capaEtiquetasConsultas()"
+                      title="Etiquetas de las consultas"> Etiquetas<br>consultas<br>
+               
+               <div id="bloqueEstiloLetraEtiquetas">
+                  
+                  <select id="sizeEtiq" title="Tamaño del texto en la etiqueta" 
+                          class="cajas" style="height: 23px; width: 45px"
+                          onchange="capaEtiquetasConsultas()">
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4" selected>4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                  </select>
+                  
+                  <select id="colorEtiq" title="Color del texto en la etiqueta"
+                          class="cajas" style="height: 23px; width: 40px"
+                          onchange="cambiaColor('colorEtiq');capaEtiquetasConsultas()">   
+                          <option value="#000000" 
+                                  style="background-color:#000000;" 
+                                  selected></option>
+                          <option value="#ffffff" 
+                                  style="background-color:#ffffff;"></option>   
+                  </select>   
+               
+               </div><!--bloqueEstiloLetraEtiquetas-->
+               
+               <div id="bloqueElementosEtiquetas" class="texto">  
+                               
+                  <input type="checkbox" 
+                         id="idEtiquetasConsultas"
+                         onclick="capaEtiquetasConsultas()"
+                         title="Mostrar Id"> Id<br>
+                  
+                  <input type="checkbox" 
+                         id="nombreEtiquetasConsultas"
+                         onclick="capaEtiquetasConsultas()"
+                         title="Mostrar Nombre"> Nombre<br>
+                  
+                  <input type="checkbox" 
+                         id="valorEtiquetasConsultas"
+                         onclick="capaEtiquetasConsultas()"
+                         title="Mostrar valor"> Valor<br>
+               
+               </div><!--bloqueElementosEtiquetas-->
+               
+            </div><!--bordebloqueEtiquetas-->
+            
+         </div><!--bloqueConsultas-->
+            
+         <div id="bloqueElementos1" class="texto">
+         
+            <input type="checkbox" 
+                   id="fondoBlanco"
+                   onclick="fondoBlanco()"
+                   title="Fondo blanco"> Fondo blanco<br>
+                   
+            <input type="checkbox" 
+                   id="fondoNegro"
+                   onclick="fondoNegro()"
+                   title="Fondo negro"> Fondo negro<br> 
+                                 
+         </div><!--bloqueElementos1-->
+          
+         <div id="bloqueElementos2" class="texto">
+         
+            <input type="checkbox" 
+                   id="escalagrafica"
+                   onclick="escalagrafica()"
+                   title="Escala gráfica"> Escala<br>
+                   
+            <input type="checkbox" 
+                   id="controles"
+                   onclick="controles()"
+                   title="Controles de mapa"> Controles<br>   
+                               
+         </div><!--bloqueElementos2-->
+            
+         <div id="bloqueLimites" class="texto">
+            
+            <div id="tituloBloqueLimites">
+               <b>Límites:</b> 
+               <input type="checkbox" 
+                   id="capaLeyendaLimites"
+                   onclick="capaLeyendaLimites()"
+                   title="Leyenda de límites territoriales"> Leyenda límites<br>
+            </div>
+               
+            <div id="limPrq">
+            
+               <select id="grosorLimPrq" title="Grosor del límite parroquial" 
+                       class="cajas" style="height: 20px; width: 45px"
+                       onchange="capaFondoLim('capaFondoPrq');
+                                 capaLeyendaLimites()">
+                       <option value="0.5" selected>0.5</option>
+                       <option value="1">1</option>
+                       <option value="2">2</option>
+                       <option value="3">3</option>
+                       <option value="4">4</option>
+               </select>
+               
+               <select id="colorLimPrq" title="Color del límite parroquial"
+                       class="cajas" style="height: 20px; width: 40px"
+                       onchange="cambiaColor('colorLimPrq');
+                                 capaFondoLim('capaFondoPrq');
+                                 capaLeyendaLimites()">   
+               </select>   
+               
+               <input type="checkbox" 
+                      id="capaFondoPrq"
+                      onclick="capaFondoLim('capaFondoPrq');
+                               capaLeyendaLimites()"
+                      title="Límites de las parroquias"> Parroquias<br>
+            
+            </div><!--limPrq-->
+            
+            <div id="limArcip">
+            
+               <select id="grosorLimArcip" title="Grosor del límite de arciprestazgo" 
+                       class="cajas" style="height: 20px; width: 45px"
+                       onchange="capaFondoLim('capaFondoArcip');
+                                 capaLeyendaLimites()">
+                       <option value="0.5" selected>0.5</option>
+                       <option value="1">1</option>
+                       <option value="2">2</option>
+                       <option value="3">3</option>
+                       <option value="4">4</option>
+               </select>
+               
+               <select id="colorLimArcip" title="Color del límite de arciprestazgo"
+                       class="cajas" style="height: 20px; width: 40px"
+                       onchange="cambiaColor('colorLimArcip');
+                                 capaFondoLim('capaFondoArcip');
+                                 capaLeyendaLimites()">   
+               </select> 
+                             
+               <input type="checkbox" 
+                      id="capaFondoArcip"
+                      onclick="capaFondoLim('capaFondoArcip');
+                               capaLeyendaLimites()"
+                      title="Límites de los arciprestazgos"> Arciprestazgo<br>
+            
+            </div><!--limArcip-->
+               
+            <div id="limVic">
+            
+               <select id="grosorLimVic" title="Grosor del límite de vicaría" 
+                       class="cajas" style="height: 20px; width: 45px"
+                       onchange="capaFondoLim('capaFondoVicarias');
+                                 capaLeyendaLimites()">
+                       <option value="0.5" selected>0.5</option>
+                       <option value="1">1</option>
+                       <option value="2">2</option>
+                       <option value="3">3</option>
+                       <option value="4">4</option>
+               </select>
+               
+               <select id="colorLimVic" title="Color del límite de vicaría"
+                       class="cajas" style="height: 20px; width: 40px"
+                       onchange="cambiaColor('colorLimVic');
+                                 capaFondoLim('capaFondoVicarias');
+                                 capaLeyendaLimites()">   
+               </select>  
+                            
+               <input type="checkbox" 
+                      id="capaFondoVicarias"
+                      onclick="capaFondoLim('capaFondoVicarias');
+                               capaLeyendaLimites()"
+                      title="Límites de las vicarías"> Vicarías<br>
+            
+            </div><!--limVic-->
+               
+            <div id="limComarc">
+            
+               <select id="grosorLimComarc" title="Grosor del límite comarcal" 
+                       class="cajas" style="height: 20px; width: 45px"
+                       onchange="capaFondoLim('capaFondoComarcas');
+                                 capaLeyendaLimites()">
+                       <option value="0.5" selected>0.5</option>
+                       <option value="1">1</option>
+                       <option value="2">2</option>
+                       <option value="3">3</option>
+                       <option value="4">4</option>
+               </select>
+               
+               <select id="colorLimComarc" title="Color del límite comarcal"
+                       class="cajas" style="height: 20px; width: 40px"
+                       onchange="cambiaColor('colorLimComarc');
+                                 capaFondoLim('capaFondoComarcas');
+                                 capaLeyendaLimites()">   
+               </select>                  
+               
+               <input type="checkbox" 
+                      id="capaFondoComarcas"
+                      onclick="capaFondoLim('capaFondoComarcas');
+                               capaLeyendaLimites()"
+                      title="Límites de las comarcas"> Comarcas<br>
+            
+            </div><!--limComarc-->
+               
+         </div><!--bloqueLimites-->
+            
+      </div><!--capas-->
+      
+      <!-- ******************************************************************************* -->   
+      <!-- ********************     Informe      ***************************************** -->
+      <!-- ******************************************************************************* -->
+        
+      <div id="imprimirInforme">
+      
+         <div id="seccionInforme">
+         
+            <div id="TituloSeccionInforme"><h2>Informe:</h2></div>
+            <div id="botonVistaPrevia" title="Ver vista previa">
+               <a href="javascript:vistaPreviaInforme('informe')"></a>
+            </div>
+            <div id="botonImprimir" title="Imprimir informe">
+               <a href="javascript:imprInforme('informe')"></a>
+            </div>
+            
+         </div>
+         
+         <div id="informe"></div>
+      
+      </div> <!-- imprimirInforme -->
+      
+      
+      <!-- ******************************************************************************* -->   
+      <!-- ****************** Licencia y administración ********************************** -->
+      <!-- ******************************************************************************* -->
+      
+      <div class="cajas2" id="licenciayadmin">
+         <a rel="license" 
+            title="Esta obra está bajo una licencia de Creative Commons Reconocimiento-NoComercial-CompartirIgual 3.0 Unported"
+            href="http://creativecommons.org/licenses/by-nc-sa/3.0/es/">
+            <img alt="Licencia de Creative Commons" 
+                 style="border-width:0" 
+                 src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" /></a> 
+         <a href="edicion/">   Administración   </a>
+         <a href="index.html"> Localizador </a>           
+      </div>
+      
+   </div> <!--lateral-->   
+
+   
+   <!-- ******************************************************************************* -->   
+   <!-- ******* Botón para mostrar/ocultar el panel lateral de Herramientas *********** -->
+   <!-- ******************************************************************************* -->
+      
+   <div id="controlHerramientas">
+      <input title="Activar/Desactivar panel"
+             id="actDesPanel"
+             type="image" 
+             src="imagenes/ocultar_panel.png"
+             onclick="capaHerramientas()" />   
+   </div>
+      
+</body>
+
+</html>
+

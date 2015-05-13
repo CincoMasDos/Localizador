@@ -1,0 +1,454 @@
+	/*.clase_principal {opacity:1;} *//*{opacity:0.5;}*/
+	
+	.etiq1b, .etiq2b, .etiq3b, .etiq4b, .etiq5b, .etiq6b, .etiq7b, .etiq8b, .etiq9b, .etiq10b {
+		color: black;
+		font-family: "Lucida Grande", "Arial", sans-serif;
+		white-space: normal;
+		width: 100px;
+	}
+	.etiq1w, .etiq2w, .etiq3w, .etiq4w, .etiq5w, .etiq6w, .etiq7w, .etiq8w, .etiq9w, .etiq10w {
+		color: white;
+		font-family: "Lucida Grande", "Arial", sans-serif;
+		white-space: normal;
+		width: 100px;
+	}
+	.etiq1b, .etiq1w { font-size: 0.70em; }
+	.etiq2b, .etiq2w { font-size: 0.80em; }
+	.etiq3b, .etiq3w { font-size: 0.90em; }
+	.etiq4b, .etiq4w { font-size: 1.00em; }
+	.etiq5b, .etiq5w { font-size: 1.10em; }
+	.etiq6b, .etiq6w { font-size: 1.20em; }
+	.etiq7b, .etiq7w { font-size: 1.30em; }
+	.etiq8b, .etiq8w { font-size: 1.40em; }
+	.etiq9b, .etiq9w { font-size: 1.50em; }
+	.etiq10b, .etiq10w { font-size: 1.60em; }
+	
+	
+body {
+	background-color: #4B4B4B;
+	background-image: url("cabecera.png");
+	background-repeat: repeat-x;
+	background-position: top center;
+	background-attachment: scroll; 
+	font-family: arial, verdana, sans-serif;
+	font-size: 0.9em;
+	/*color: white;*/
+}
+
+
+h1 {
+	float: left;
+	margin: 6px 0 0 0;
+	font-family: arial, verdana, sans-serif;
+	color: white;
+	font-size: 2em;
+	font-weight: bold;
+	/*position: relative;*/
+}
+
+h2 {
+	clear: both; 
+	margin:0 0 2px 0;
+	font-family: arial, verdana, sans-serif;
+	color: white;
+	font-size: 1em;
+	font-weight: bold;
+}
+
+a {
+	font-family: arial, verdana, sans-serif;
+	color: white;
+	text-decoration:none; 
+}
+
+a:hover {
+	color:orange;
+	text-decoration:none;
+}
+
+ul,li { 
+	list-style-type: disc;
+} 
+
+strong,b {
+	font-weight: bold;
+}
+
+
+.texto {
+	font-family: arial, verdana, sans-serif;
+	color: white;
+	font-size: 0.95em;
+}
+
+.cajas {
+	font-family: arial, verdana, sans-serif;
+	font-size: 0.9em;
+}
+
+.narrow { width: 45px; }
+.container { width: 45px; overflow: hidden; }
+
+
+.cajas2 {
+	font-family: arial, verdana, sans-serif;
+	font-size: 0.85em;
+	color: white;
+	/*font-weight: bold;*/
+}
+.globos {
+	font-family: arial, verdana, sans-serif;
+	font-size: 0.85em;
+	margin: 3px; 
+}
+
+
+
+
+/* ******* Cabecera ****** */
+#titulo {
+	position: absolute;
+	top: 0;
+	left: 15px;
+	height: 40px;
+	width: 860px;
+}	
+#logos { 
+	position: absolute;
+	top: 4px;
+	right: 40px;
+	height: 40px;
+}
+
+
+/* ******* Mapa ******* */
+#map {
+	margin: 48px 0 0 0;
+	width: 100%; 
+	height: 100%;	
+}
+
+/* ******* Leyenda ******* */
+
+.etiqLeyenda, .etiqLeyendaSitu, .etiqLeyendaLimites {
+	background-color: #ffffff;
+	padding: 0 0 10px 0;
+	opacity:0.9;
+	white-space: normal;
+}
+.etiqLeyenda {
+	width: 250px;
+}
+.etiqLeyendaSitu {
+	width: 300px;
+}
+.etiqLeyendaLimites {
+	width: 190px;
+}
+
+
+	.leyenda_grande {
+		margin: 0;
+		padding: 10px;
+	}
+	.leyenda_colores, .leyenda_colores_limites {
+		float: left;
+		position: relative;
+		margin: 10px 5px 0 10px;
+		padding: 0;
+	}
+		.leyenda_colores {
+			width: 20px;
+			height: 20px;
+		}
+		.leyenda_colores_limites {
+			width: 30px;
+		}
+	.leyenda_texto, .leyenda_texto_limites {
+		float: none;
+		position: relative;
+		margin: 10px 0 0 10px;
+		padding: 0 30px;
+		font-family: arial, verdana, sans-serif;
+		font-size: 0.85em;
+	}
+		.leyenda_texto {
+			height: 20px;
+			font-family: arial, verdana, sans-serif;
+			font-size: 0.85em;
+		}
+		.leyenda_texto_limites {
+			height: 10px;
+		}
+
+/* ******* Herramientas ******* */
+
+#controlHerramientas {
+	position: absolute;
+	top: 55px;
+	right: 10px;
+	width: 13px;
+	height: 13px; 
+	padding: 0;
+}
+
+#lateral {
+	position: absolute;
+	top: 55px;
+	right: 10px;
+	width: 348px;
+	padding: 13px;
+	background-color: #4B4B4B;
+	opacity:0.9;
+}
+		
+	/*****************************************************************************/
+	/*****************   Herramientas del GENERADOR DE MAPAS   *******************/
+	/*****************************************************************************/	
+	
+	#udMinimayTerritorio { border: 1px solid orange;
+		float: left;
+		position: relative;
+		margin: 0 0 0 0;
+		padding: 8px 8px 8px 8px; 
+		width: 330px;		
+	}
+	
+		#BloqueUnidadMinima { 
+			float: left;
+			position: relative;
+			width: 110px;
+			top: 2px;
+			left: 2px;
+		}
+			#BloqueUnidadMinima select{ 
+				width: 100px; 
+				height: 23px;
+			}
+		#BloqueAreaDeEstudio { 
+			float: left;
+			position: relative;
+			width: 200px;
+			top: 2px;
+			bottom: 5px;
+			left: 2px;
+		}
+			#BloqueAreaDeEstudio select{ 
+				width: 210px;				
+			}
+		
+
+	#BloqueHerramientasDeConsulta { border: 1px solid orange;
+		float: left;
+		position: relative;
+		margin: 11px 0 0 0;
+		padding: 0 0 12px 8px;
+		width: 338px; 
+	}	
+		#TituloEligeHerramienta { 
+			float: left;
+			position: relative;
+			margin: 8px 0 0 0;
+			width: 315px;
+			height: 23px;
+		}
+		#LimpiarConsultas { 
+			float: left;
+			position: relative;
+			margin: 0 0 0 0;
+			width: 23px;
+			height: 23px;
+		}
+		#enBloque { 
+			float: left;
+			position: relative;
+			margin: 0;
+			left: 2px;
+			height: 23px;
+		}
+		#individual { 
+			float: left;
+			position: relative;
+			margin: 0;
+			left: 20px;
+			height: 23px;
+		}
+		#situaciones { 
+			float: left;
+			position: relative;
+			margin: 0;
+			left: 40px;
+			height: 23px;
+		}
+
+
+			/*******************************************/
+
+			/* tamaño y forma del panel principal */
+			div#HerramientasDeConsulta { 
+				float: left;
+				position: relative;
+				width:338px;
+				height: auto; /*300px;*/
+			}
+
+			/* Configuración de los paneles */
+			div#panel #paneles {
+				position:absolute;
+				left: 0;
+				top: 23px;
+				width: 338px;
+				height: auto; /*275px;*/
+				overflow: hidden;
+				z-index: 10px;
+			}
+			div#panel #paneles div {
+				margin:10px;
+				width: 338px;
+				height: auto; /*255px;*/
+			}			
+			
+
+			
+			/********************************************/
+
+	#capas { border: 1px solid orange;
+		float: left;
+		position: relative;
+		margin: 11px 0 0 0;
+		padding: 8px 0 12px 8px;
+		width: 338px;
+	}	
+		#tituloCapas {
+			float: left;
+			position: relative;
+			width: 336px;
+		}
+		#bloqueConsultas  {
+			float: left;
+			position: relative;
+			width: 100px;
+		}
+		#bloqueElementos1 {
+			float: left;
+			position: relative;
+			margin: 0 0 0 10px;
+			width: 120px;
+			height: 35px
+		}
+		#bloqueElementos2 {
+			float: left;
+			position: relative;
+			width: 80px;
+			height: 35px
+		}
+		
+		#bordebloqueEtiquetas { 
+			border-right: 1px solid white;
+			border-bottom: 1px solid white;
+			background-color: #646464;
+			opacity:0.9;
+			padding: 0 5px 5px 0;
+			margin: 6px 0 0 0;
+			float: left;
+			position: relative;
+			width: 95px;
+		}
+			#bloqueEstiloLetraEtiquetas, #bloqueElementosEtiquetas {
+				margin: 2px 0 0 5px;
+				float: left;
+				position: relative;
+				width: 90px;
+			}
+		
+		#bloqueLimites { border: 1px solid white;
+			padding: 5px 0 5px 5px;
+			margin: 5px 0 0 10px;
+			float: left;
+			position: relative;
+			width: 210px;
+		}
+			#tituloBloqueLimites {
+				float: left;
+				position: relative;
+				margin: 0 0 5px 0;
+				width: 205px;
+			}
+			#limPrq, #limArcip, #limVic, #limComarc {
+				float: left;
+				position: relative;
+				width: 205px;
+			}
+			#limPrq input, #limArcip input, #limVic input, #limComarc input {
+				vertical-align: middle;
+			}
+			
+	
+	#imprimirInforme { border: 1px solid orange;
+		float: left;
+		position: relative;
+		margin: 11px 0 0 0;
+		padding: 0 0 8px 8px;
+		width: 338px;
+	}
+		#seccionInforme { 
+			float: left;
+			position: relative;
+			margin: 8px 0 0 0;
+			width: 65px; 
+		}		
+			#TituloSeccionInforme { 
+				float: left;
+				position: relative;
+				margin: 0 0 0 0;
+				height: 23px;
+			}
+			#botonVistaPrevia a { 
+				float: left;
+				position: relative;
+				margin: 4px 0 10px 0;
+				height: 23px;
+				width: 27px;
+				background-image:url(img/vista_previa.png);
+				background-repeat: no-repeat;
+			}
+				#botonVistaPrevia a:hover{
+					background-image:url(img/vista_previa_on.png);
+					background-repeat: no-repeat;
+				}
+			#botonImprimir a { 
+				float: left;
+				position: relative;
+				margin: 4px 0 10px 0;
+				height: 23px;
+				width: 27px;
+				background-image:url(img/imprimir.png);
+				background-repeat: no-repeat;
+			}
+				#botonImprimir a:hover{
+					background-image:url(img/imprimir_on.png);
+					background-repeat: no-repeat;
+				}
+
+		#informe { 
+			height: 0;
+			width: 0; 
+			visibility:hidden;
+			overflow:auto;
+		}
+		
+	#licenciayadmin { 
+		float: left;
+		position: relative;
+		text-align: center;
+		margin: 0;
+		padding: 5px;
+		width: 338px;		
+	}
+
+/*border: 1px solid orange;*/
+
+
+	
+	
+	

@@ -1,0 +1,1110 @@
+<html>
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+   <title>Localizador de recursos sociales</title>
+   <link href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" />
+   <script type="text/javascript" 
+           src="http://maps.google.es/maps/api/js?sensor=false&region=ES&language=ES&libraries=geometry"></script>
+           
+   <script type="text/javascript" src="src/otros/keydragzoom_packed.js" ></script>
+   <script type="text/javascript" src="src/localizador/crearMiMarca.js" ></script>
+   <script type="text/javascript" src="src/localizador/borrarLimpiar.js" ></script>
+   <script type="text/javascript" src="src/limitesPolyXML.js" ></script>
+   <script type="text/javascript" src="src/localizador/auxListasOt.js" ></script>
+   <script type="text/javascript" src="src/descargaAux.js" ></script>
+   <script type="text/javascript" src="src/localizador/descarga/descarga_prqs.js" ></script>
+   <script type="text/javascript" src="src/localizador/descarga/descarga_cmssv.js" ></script>
+   <script type="text/javascript" src="src/localizador/descarga/descarga_cintra.js" ></script>
+   <script type="text/javascript" src="src/localizador/descarga/descarga_arropa.js" ></script>
+   <script type="text/javascript" src="src/localizador/descarga/descarga_ot.js" ></script>
+   <script type="text/javascript" src="src/localizador/calculoRutas.js" ></script>
+   <script type="text/javascript" src="src/localizador/iniciaLocalizacion.js" ></script>
+   <script type="text/javascript" src="src/localizador/anyadiraInforme.js" ></script>   
+   <script type="text/javascript" src="src/localizador/Contains.js" ></script>
+   <script type="text/javascript" src="src/localizador/auxMarcaDemarcNueva.js" ></script>
+   <script type="text/javascript" src="src/localizador/auxMarcasDemarcAlmacenadas.js" ></script>
+   <script type="text/javascript" src="src/localizador/auxMarcasAlmacenadas.js" ></script>
+   <script type="text/javascript" src="src/localizador/auxMarca.js" ></script>
+   <script type="text/javascript" src="src/localizador/distanciaEntre.js" ></script>
+   <script type="text/javascript" src="src/localizador/auxElMasCercano.js" ></script>
+   <script type="text/javascript" src="src/listenerAbrirGlobo.js" ></script>
+   <script type="text/javascript" src="src/localizador/globoEnCasa.js" ></script>
+   <script type="text/javascript" src="src/localizador/localizaPuntos.js" ></script>
+   <script type="text/javascript" src="src/localizador/localizaPuntosEnAreas.js" ></script>
+   <script type="text/javascript" src="src/localizador/localizaRecursos.js" ></script>
+   <script type="text/javascript" src="src/localizador/muestraOcultaInfo.js" ></script>
+   <script type="text/javascript" src="src/localizador/tipoInfoAlocalizar.js" ></script>
+   <script type="text/javascript" src="src/localizador/tipoBusqueda.js" ></script>
+   <script type="text/javascript" src="src/localizador/situaDireccion.js" ></script>
+   <script type="text/javascript" src="src/localizador/capaHerramientas.js" ></script>
+
+   <link rel="stylesheet" type="text/css" href="estilos/reset.css" /> <!--Reseteador de estilos-->
+   <link rel="stylesheet" type="text/css" href="estilos/hojaestilos2.css" />
+   
+   <script type="text/javascript">
+
+     
+      // *******************************************************************************************
+      // ***************** Declaración y/o inicialización de variables globales ********************
+      // *******************************************************************************************
+   
+         var iddiocesana = 219;         
+
+         // Listas para almacenar el contenido de la tabla "parroquias"
+         var polys_prqs = [];
+         var polys_prqs_limiteMax = [];
+         var polys_prqs_limiteMin = [];
+         var prqs_nombre = [];
+         var prqs_punto = [];
+         var prqs_mensaGlobo = [];
+         var prqs_mensaGloboInforme = [];
+
+         // Listas para almacenar el contenido de la tabla "cmss"
+         var polys_cmssv = [];
+         var polys_cmssv_limiteMax = [];
+         var polys_cmssv_limiteMin = [];
+         var cmssv_nombre = [];
+         var cmssv_punto = [];
+         var cmssv_mensaGlobo = [];   
+         var cmssv_mensaGloboInforme = [];   
+      
+         // Listas para almacenar el contenido de la tabla "contenedoresintra"
+         var cINTRA_nombre = [];
+         var cINTRA_punto = [];
+         var cINTRA_mensaGlobo = [];   
+         
+         // Listas para almacenar el contenido de la tabla "tiendas_arropa"
+         var arropa_nombre = [];
+         var arropa_punto = [];
+         var arropa_mensaGlobo = [];   
+         
+         // Listas para almacenar el contenido de la tabla "otros_recursos"
+         var ot501noms = []; var ot501pts = []; var ot501mGlobs = []; var ot501mGlobsInforme = [];
+         var ot502noms = []; var ot502pts = []; var ot502mGlobs = []; var ot502mGlobsInforme = [];
+         var ot503noms = []; var ot503pts = []; var ot503mGlobs = []; var ot503mGlobsInforme = [];
+         var ot504noms = []; var ot504pts = []; var ot504mGlobs = []; var ot504mGlobsInforme = [];
+         var ot505noms = []; var ot505pts = []; var ot505mGlobs = []; var ot505mGlobsInforme = [];
+         var ot506noms = []; var ot506pts = []; var ot506mGlobs = []; var ot506mGlobsInforme = [];
+         var ot507noms = []; var ot507pts = []; var ot507mGlobs = []; var ot507mGlobsInforme = [];
+         var ot508noms = []; var ot508pts = []; var ot508mGlobs = []; var ot508mGlobsInforme = [];
+         var ot509noms = []; var ot509pts = []; var ot509mGlobs = []; var ot509mGlobsInforme = [];
+         var ot510noms = []; var ot510pts = []; var ot510mGlobs = []; var ot510mGlobsInforme = [];
+         var ot511noms = []; var ot511pts = []; var ot511mGlobs = []; var ot511mGlobsInforme = [];
+         var ot512noms = []; var ot512pts = []; var ot512mGlobs = []; var ot512mGlobsInforme = [];
+         var ot513noms = []; var ot513pts = []; var ot513mGlobs = []; var ot513mGlobsInforme = [];
+         var ot514noms = []; var ot514pts = []; var ot514mGlobs = []; var ot514mGlobsInforme = [];
+         var ot515noms = []; var ot515pts = []; var ot515mGlobs = []; var ot515mGlobsInforme = [];
+         var ot516noms = []; var ot516pts = []; var ot516mGlobs = []; var ot516mGlobsInforme = [];
+         var ot517noms = []; var ot517pts = []; var ot517mGlobs = []; var ot517mGlobsInforme = [];
+         var ot518noms = []; var ot518pts = []; var ot518mGlobs = []; var ot518mGlobsInforme = [];
+         var ot519noms = []; var ot519pts = []; var ot519mGlobs = []; var ot519mGlobsInforme = [];
+         
+         var idsTiposOt = [501,502,503,504,505,506,507,508,509,510,511,512,513,514,515,516,517,518,519];
+         
+         // Inicialización de variables que establecen si están visibles o no las marcas o los polígonos
+         var est_demarc_prq = false;   // controla si están visibles las demarcaciones parroquiales
+         var est_marcas_prq = false;   // controla si están visibles las marcas de las parroquias
+         var est_demarc_cmssv = false; // controla si están visibles las areas de servicios sociales
+         var est_marcas_cmssv = false; // controla si están visibles las marcas de los CMSS
+         var est_marcas_cINTRA = false;// controla si están visibles los contenedores @rropa
+         var est_marcas_arropa = false;// controla si están visibles las tiendas @rropa
+         var est_marcas_ot = false;    // controla si están visibles los otros recursos sociales
+
+
+
+
+      // Otras variables
+      var map;
+      var mostrarOverlayMap = true;
+      var centro = new google.maps.LatLng(39.469969,-0.376449);
+      var infoGlobo = new google.maps.InfoWindow();
+      var Globo = false;       // Controla si hay un infoGlobo abierto
+      var marcasEnMapa = []; 
+      var cont = 0; //para los mensajes de límites
+                               
+      var directionsDisplay;    // Para el cálculo de rutas
+      var directionsService;    // Para el cálculo de rutas
+      
+      
+      var tomar_direccion = 0;
+      var tipoBusqueda = "direccion";
+      var otTipo = 500;
+      var dibuja; // controla el tipo de info a dibujar
+                  // 11: Marcas parroquiales
+                  // 12: Demarcaciones parroquiales
+                  // 21: Marcas CMSS
+                  // 22: Demarcaciones áreas Servicios Sociales Municipales
+                  // 3 : Marcas contenedores @rropa
+                  // 4 : Marcas tiendas @rropa
+      var toda = false;   // Indica si han de intentar dibujarse todos los tipos de info
+                        // Se controla desde tipoBusqueda.js
+      var bounds = new google.maps.LatLngBounds();
+                 
+      var casa = new google.maps.LatLng(39.469738,-0.376840); // correspondiente a direccionAbuscar
+      var mi_marca;
+      var direccionAbuscar = "Plaza del Ayuntamiento, 1, 46002 Valencia, España";
+      var miMensaGlobo = "<div class='globos2'>Localización de la dirección que has "+
+                         "facilitado:<br><strong>"+direccionAbuscar+"</strong></div>";
+                                    
+      var no_disp = [];         // Almacena las cadenas de texto que indican el tipo de recurso 
+                                // no disponible
+
+      var haciag;               // variable que contendrá el objeto punto hacia
+      var hay_ruta = false;
+
+      var radioBusqueda = 0;
+
+      var controlHerramientas = true; // Controla la visibilida del panel lateral de herramientas
+      
+      // Listas que almacenarán las marcas y polígonos dibujados en el mapa
+      var prqs_marcas_todas = [];
+      var prqs_marcas_direc = [];
+      var prqs_marcas_radio = [];
+      var prqs_demarc_todas = [];
+      var prqs_demarc_direc = [];
+      var prqs_demarc_direc_limiteMax = []; // Almacena el punto de lat y lng máximas de cada 
+                                            // poligono almacenado en la lista de polígonos direc
+      var prqs_demarc_direc_limiteMin = []; // Almacena el punto de lat y lng mínimas de cada 
+                                            // poligono almacenado en la lista de polígonos direc
+      var prqs_demarc_radio = [];
+      var prqs_demarc_radio_limiteMax = []; // Almacena el punto de lat y lng máximas de cada 
+                                            // poligono almacenado en la lista de polígonos radio
+      var prqs_demarc_radio_limiteMin = []; // Almacena el punto de lat y lng mínimas de cada 
+                                            // poligono almacenado en la lista de polígonos radio   
+      var prqs_indice_todas = [];
+      var prqs_indice_direc = [];
+      var prqs_indice_radio = [];
+      var cmssv_marcas_todas = [];
+      var cmssv_marcas_direc = [];
+      var cmssv_marcas_radio = [];
+      var cmssv_demarc_todas = [];
+      var cmssv_demarc_direc = [];
+      var cmssv_demarc_direc_limiteMax = [];   // Almacena el punto de lat y lng máximas de cada 
+                                               // poligono almacenado en la lista de polígonos direc
+      var cmssv_demarc_direc_limiteMin   = []; // Almacena el punto de lat y lng mínimas de cada 
+                                               // poligono almacenado en la lista de polígonos direc   
+      var cmssv_demarc_radio = [];
+      var cmssv_demarc_radio_limiteMax   = []; // Almacena el punto de lat y lng máximas de cada 
+                                               // poligono almacenado en la lista de polígonos radio
+      var cmssv_demarc_radio_limiteMin   = []; // Almacena el punto de lat y lng mínimas de cada 
+                                               // poligono almacenado en la lista de polígonos radio      
+      var cmssv_indice_todas = [];
+      var cmssv_indice_direc = [];
+      var cmssv_indice_radio = [];
+      var cINTRA_marcas_todas = [];
+      var cINTRA_marcas_direc = [];
+      var cINTRA_marcas_radio = [];
+      var arropa_marcas_todas = [];
+      var arropa_marcas_direc = [];
+      var arropa_marcas_radio = [];
+      var ot501marc_t = []; var ot501marc_d = []; var ot501marc_r = [];
+      var ot502marc_t = []; var ot502marc_d = []; var ot502marc_r = [];
+      var ot503marc_t = []; var ot503marc_d = []; var ot503marc_r = [];
+      var ot504marc_t = []; var ot504marc_d = []; var ot504marc_r = [];
+      var ot505marc_t = []; var ot505marc_d = []; var ot505marc_r = [];
+      var ot506marc_t = []; var ot506marc_d = []; var ot506marc_r = [];
+      var ot507marc_t = []; var ot507marc_d = []; var ot507marc_r = [];
+      var ot508marc_t = []; var ot508marc_d = []; var ot508marc_r = [];
+      var ot509marc_t = []; var ot509marc_d = []; var ot509marc_r = [];
+      var ot510marc_t = []; var ot510marc_d = []; var ot510marc_r = [];
+      var ot511marc_t = []; var ot511marc_d = []; var ot511marc_r = [];
+      var ot512marc_t = []; var ot512marc_d = []; var ot512marc_r = [];
+      var ot513marc_t = []; var ot513marc_d = []; var ot513marc_r = [];
+      var ot514marc_t = []; var ot514marc_d = []; var ot514marc_r = [];
+      var ot515marc_t = []; var ot515marc_d = []; var ot515marc_r = [];
+      var ot516marc_t = []; var ot516marc_d = []; var ot516marc_r = [];
+      var ot517marc_t = []; var ot517marc_d = []; var ot517marc_r = [];
+      var ot518marc_t = []; var ot518marc_d = []; var ot518marc_r = [];
+      var ot519marc_t = []; var ot519marc_d = []; var ot519marc_r = [];
+            
+
+      // *******************************************************************************************
+      // ***************** Definición de las imágenes de los botones *******************************
+      // *******************************************************************************************
+      //
+      // Descripción: Imagenes de los botones que hacen visibles o quitan las marcas o los poligonos
+      
+         locCaritasImagen = new Image(50,50);
+           locCaritasImagenOnActivado = new Image(50,50);
+           locCaritasImagenOnDesactivado = new Image(50,50);
+           locCaritasImagenActivado = new Image(50,50);
+           locCaritasImagenDesactivado = new Image(50,50);
+           locCaritasImagen.src = "imagenes/loc_desactivados_caritas.png";
+           locCaritasImagenOnActivado.src = "imagenes/loc_on_activados_caritas.png";
+           locCaritasImagenOnDesactivado.src = "imagenes/loc_on_desactivados_caritas.png";
+           locCaritasImagenActivado.src = "imagenes/loc_activados_caritas.png";
+           locCaritasImagenDesactivado.src = "imagenes/loc_desactivados_caritas.png";
+           
+         areasCaritasImagen = new Image(50,50);
+           areasCaritasImagenOnActivadas = new Image(50,50);
+           areasCaritasImagenOnDesactivadas = new Image(50,50);
+           areasCaritasImagenActivadas = new Image(50,50);
+           areasCaritasImagenDesactivadas = new Image(50,50);
+           areasCaritasImagen.src = "imagenes/areas_desactivadas_caritas.png";
+           areasCaritasImagenOnActivadas.src = "imagenes/areas_on_activadas_caritas.png";
+           areasCaritasImagenOnDesactivadas.src = "imagenes/areas_on_desactivadas_caritas.png";
+           areasCaritasImagenActivadas.src = "imagenes/areas_activadas_caritas.png";
+           areasCaritasImagenDesactivadas.src = "imagenes/areas_desactivadas_caritas.png";
+
+         locCMSSVImagen = new Image(50,50);
+           locCMSSVImagenOnActivado = new Image(50,50);
+           locCMSSVImagenOnDesactivado = new Image(50,50);
+           locCMSSVImagenActivado = new Image(50,50);
+           locCMSSVImagenDesactivado = new Image(50,50);
+           locCMSSVImagen.src = "imagenes/loc_desactivados_CMSSV.png";
+           locCMSSVImagenOnActivado.src = "imagenes/loc_on_activados_CMSSV.png";
+           locCMSSVImagenOnDesactivado.src = "imagenes/loc_on_desactivados_CMSSV.png";
+           locCMSSVImagenActivado.src = "imagenes/loc_activados_CMSSV.png";
+           locCMSSVImagenDesactivado.src = "imagenes/loc_desactivados_CMSSV.png";
+
+         areasCMSSVImagen = new Image(50,50);
+           areasCMSSVImagenOnActivadas = new Image(50,50);
+           areasCMSSVImagenOnDesactivadas = new Image(50,50);
+           areasCMSSVImagenActivadas = new Image(50,50);
+           areasCMSSVImagenDesactivadas = new Image(50,50);
+           areasCMSSVImagen.src = "imagenes/areas_desactivadas_caritas.png";
+           areasCMSSVImagenOnActivadas.src = "imagenes/areas_on_activadas_CMSSV.png";
+           areasCMSSVImagenOnDesactivadas.src = "imagenes/areas_on_desactivadas_CMSSV.png";
+           areasCMSSVImagenActivadas.src = "imagenes/areas_activadas_CMSSV.png";
+           areasCMSSVImagenDesactivadas.src = "imagenes/areas_desactivadas_CMSSV.png";
+
+         cINTRAImagen = new Image(50,50);
+           cINTRAImagenOnActivado = new Image(50,50);
+           cINTRAImagenOnDesactivado = new Image(50,50);
+           cINTRAImagenActivado = new Image(50,50);
+           cINTRAImagenDesactivado = new Image(50,50);
+           cINTRAImagen.src = "imagenes/loc_desactivados_contenINTRA.png";
+           cINTRAImagenOnActivado.src = "imagenes/loc_on_activados_contenINTRA.png";
+           cINTRAImagenOnDesactivado.src = "imagenes/loc_on_desactivados_contenINTRA.png";
+           cINTRAImagenActivado.src = "imagenes/loc_activados_contenINTRA.png";
+           cINTRAImagenDesactivado.src = "imagenes/loc_desactivados_contenINTRA.png";
+           
+           arropaImagen = new Image(50,50);
+           arropaImagenOnActivado = new Image(50,50);
+           arropaImagenOnDesactivado = new Image(50,50);
+           arropaImagenActivado = new Image(50,50);
+           arropaImagenDesactivado = new Image(50,50);
+           arropaImagen.src = "imagenes/loc_desactivadas_arropa.png";
+           arropaImagenOnActivado.src = "imagenes/loc_on_activadas_arropa.png";
+           arropaImagenOnDesactivado.src = "imagenes/loc_on_desactivadas_arropa.png";
+           arropaImagenActivado.src = "imagenes/loc_activadas_arropa.png";
+           arropaImagenDesactivado.src = "imagenes/loc_desactivadas_arropa.png";
+           
+           otImagen = new Image(50,50);
+           otImagenOnActivado = new Image(50,50);
+           otImagenOnDesactivado = new Image(50,50);
+           otImagenActivado = new Image(50,50);
+           otImagenDesactivado = new Image(50,50);
+           otImagen.src = "imagenes/loc_desactivados_ot.png";
+           otImagenOnActivado.src = "imagenes/loc_on_activados_ot.png";
+           otImagenOnDesactivado.src = "imagenes/loc_on_desactivados_ot.png";
+           otImagenActivado.src = "imagenes/loc_activados_ot.png";
+           otImagenDesactivado.src = "imagenes/loc_desactivados_ot.png";
+
+      // ***************** Fin de definición de las imágenes de los botones ************************
+
+
+
+      // *******************************************************************************************
+      // ***************** Definición de imagenes de las marcas ************************************
+      // *******************************************************************************************
+
+      var imgCasa = new google.maps.MarkerImage("imagenes/home.png",
+         new google.maps.Size(25,25),
+         new google.maps.Point(0,0),
+         new google.maps.Point(12,12));
+      var sombraCasa = new google.maps.MarkerImage("imagenes/sombra_casa.png",
+         new google.maps.Size(41,23),
+         new google.maps.Point(0,0),
+         new google.maps.Point(12,12));
+            
+      var imgCINTRA = new google.maps.MarkerImage("imagenes/contenINTRA.png",
+         new google.maps.Size(20,20),
+         new google.maps.Point(0,0),
+         new google.maps.Point(10,10));
+      var sombraCINTRA = new google.maps.MarkerImage("imagenes/sombra_contenINTRA.png",
+         new google.maps.Size(33,21),
+         new google.maps.Point(0,0),
+         new google.maps.Point(10,10));
+         
+      var tamanoImgMarcaGeneral = new google.maps.Size(20,29);
+      var origenImgMarcaGeneral = new google.maps.Point(0,0);
+      var puntoInsercionImgMarcaGeneral = new google.maps.Point(10,29);
+      var urlImgSombraMarcaGeneral = "imagenes/sombra_marcageneral.png";
+      var tamanoImgSombraMarcaGeneral = new google.maps.Size(44,27);
+      var origenImgSombraMarcaGeneral = new google.maps.Point(0,0);
+      var puntoInsercionImgSombraMarcaGeneral = new google.maps.Point(10,29);
+            
+      var sombraMarcaGeneral = new google.maps.MarkerImage(urlImgSombraMarcaGeneral,
+         tamanoImgSombraMarcaGeneral,
+         origenImgSombraMarcaGeneral,
+         puntoInsercionImgSombraMarcaGeneral);
+      
+      var imgCaritas = new google.maps.MarkerImage("imagenes/caritas.png",
+         tamanoImgMarcaGeneral,
+         origenImgMarcaGeneral,
+         puntoInsercionImgMarcaGeneral);
+      var sombraCaritas = sombraMarcaGeneral;
+            
+      var imgCMSSV = new google.maps.MarkerImage("imagenes/ayto.png",
+         tamanoImgMarcaGeneral,
+         origenImgMarcaGeneral,
+         puntoInsercionImgMarcaGeneral);
+      var sombraCMSSV = sombraMarcaGeneral;
+         
+      var imgArropa = new google.maps.MarkerImage("imagenes/tiendas_arropa.png",
+         tamanoImgMarcaGeneral,
+         origenImgMarcaGeneral,
+         puntoInsercionImgMarcaGeneral);
+      var sombraArropa = sombraMarcaGeneral;
+      
+      var imgOt = new google.maps.MarkerImage("imagenes/ot.png",
+         tamanoImgMarcaGeneral,
+         origenImgMarcaGeneral,
+         puntoInsercionImgMarcaGeneral);
+      var sombraOt = sombraMarcaGeneral;
+
+      // ************** Fin de definición de imagenes de las marcas ********************************
+      
+      
+      // *******************************************************************************************
+      // ****** Funciones que cambian la imagen de los botones al pasar sobre ellos ****************
+      // ******               marcas_parroquias_over()                              ****************
+      // ******               marcas_parroquias_out()                               ****************
+      // ******               demarcaciones_prq_over()                              ****************
+      // ******               demarcaciones_prq_out()                               ****************
+      // ******               marcas_cmssv_over()                                   ****************
+      // ******               marcas_cmssv_out()                                    ****************
+      // ******               demarcaciones_cmssv_over()                            ****************
+      // ******               demarcaciones_cmssv_out()                             ****************
+      // ******               marcas_cINTRA_over()                                  ****************
+      // ******               marcas_cINTRA_out()                                   ****************
+      // ******               marcas_arropa_over()                                  ****************
+      // ******               marcas_arropa_out()                                   ****************
+      // *******************************************************************************************
+      // 
+      // Descripción: cambian la imagen de los botones al pasar sobre ellos
+      // Llamada por:     
+      //      eventos "onmouseover" y "onmouseout" de las imágenes de los botones en el "body" 
+      // Variables globales:
+      //      - est_demarc_prq     : controla si están visibles las demarcaciones parroquiales
+      //      - est_marcas_prq     : controla si están visibles las marcas de las parroquias
+      //      - est_demarc_cmssv   : controla si están visibles las areas de servicios sociales
+      //      - est_marcas_cmssv   : controla si están visibles las marcas de los CMSS
+      //      - est_marcas_cINTRA  : controla si están visibles los contenedores @rropa
+      //      - est_marcas_arropa  : controla si están visibles las tiendas @rropa
+      //      - est_marcas_ot      : controla si están visibles los otros recursos sociales
+      // Invoca a:
+      //      nada
+      // Recibe:
+      //    nada
+      // Devuelve:
+      //    nada
+      // Variables locales:
+      //      ninguna
+            
+      function marcas_parroquias_over() {
+         if (est_marcas_prq)
+            document.locCaritas.src = locCaritasImagenOnActivado.src;
+         else
+            document.locCaritas.src = locCaritasImagenOnDesactivado.src;
+      }
+      
+      function marcas_parroquias_out() {
+         if (est_marcas_prq)
+            document.locCaritas.src = locCaritasImagenActivado.src;
+         else
+            document.locCaritas.src = locCaritasImagenDesactivado.src;
+      }
+      
+      function demarcaciones_prq_over() {
+         if (est_demarc_prq)
+            document.areasCaritas.src = areasCaritasImagenOnActivadas.src;
+         else
+            document.areasCaritas.src = areasCaritasImagenOnDesactivadas.src;
+      }
+      
+      function demarcaciones_prq_out() {
+         if (est_demarc_prq)
+            document.areasCaritas.src = areasCaritasImagenActivadas.src;
+         else
+            document.areasCaritas.src = areasCaritasImagenDesactivadas.src;
+      }
+
+      function marcas_cmssv_over() {
+         if (est_marcas_cmssv)
+            document.locCMSSV.src = locCMSSVImagenOnActivado.src;
+         else
+            document.locCMSSV.src = locCMSSVImagenOnDesactivado.src;
+      }
+      
+      function marcas_cmssv_out() {
+         if (est_marcas_cmssv)
+            document.locCMSSV.src = locCMSSVImagenActivado.src;
+         else
+            document.locCMSSV.src = locCMSSVImagenDesactivado.src;
+      }
+      
+      function demarcaciones_cmssv_over() {
+         if (est_demarc_cmssv)
+            document.areasCMSSV.src = areasCMSSVImagenOnActivadas.src;
+         else
+            document.areasCMSSV.src = areasCMSSVImagenOnDesactivadas.src;
+      }
+      
+      function demarcaciones_cmssv_out() {
+         if (est_demarc_cmssv)
+            document.areasCMSSV.src = areasCMSSVImagenActivadas.src;
+         else
+            document.areasCMSSV.src = areasCMSSVImagenDesactivadas.src;
+      }
+      
+      function marcas_cINTRA_over() {
+         if (est_marcas_cINTRA)
+            document.cINTRA.src = cINTRAImagenOnActivado.src;
+         else
+            document.cINTRA.src = cINTRAImagenOnDesactivado.src;
+      }
+      
+      function marcas_cINTRA_out() {
+         if (est_marcas_cINTRA)
+            document.cINTRA.src = cINTRAImagenActivado.src;
+         else
+            document.cINTRA.src = cINTRAImagenDesactivado.src;
+      }
+      
+      function marcas_arropa_over() {
+         if (est_marcas_arropa)
+            document.arropa.src = arropaImagenOnActivado.src;
+         else
+            document.arropa.src = arropaImagenOnDesactivado.src;
+      }
+      
+      function marcas_arropa_out() {
+         if (est_marcas_arropa)
+            document.arropa.src = arropaImagenActivado.src;
+         else
+            document.arropa.src = arropaImagenDesactivado.src;
+      }
+      
+      function marcas_ot_over() {
+         if (est_marcas_ot)
+            document.ot.src = otImagenOnActivado.src;
+         else
+            document.ot.src = otImagenOnDesactivado.src;
+      }
+      
+      function marcas_ot_out() {
+         if (est_marcas_ot)
+            document.ot.src = otImagenActivado.src;
+         else
+            document.ot.src = otImagenDesactivado.src;
+      }
+      // ****** fin funciones que cambian la imagen de los botones al pasar sobre ellos ************
+
+
+
+      // *******************************************************************************************
+      // *****************    Función load      ****************************************************
+      // *******************************************************************************************
+      // 
+      // Descripción: función de iniciliazación (carga el mapa...)
+      // Llamada por:
+      //      - onload del body
+      // Invoca a:
+      //      - crearMiMarca
+      //      - jOverviewMapControl
+      //      - enableKeyDragZoom
+      //      - descarga_prqs();
+      //      - descarga_cmssv();
+      //      - descarga_cintra();
+      //      - descarga_arropa();
+      // Recibe:
+      //      nada
+      // Devuelve:
+      //    nada 
+      // Variables locales:
+      //      - bounds           // Límites de mapa
+      //      - misOpciones      // Opciones de mapa
+      // Variables globales:
+      //      - map
+      //      - mi_marca
+      //      - centro
+      //      - Globo
+      //      - tipoBusqueda
+      //      - directionsDisplay
+      //      - directionsService 
+
+      function load() {
+         //bloquearPagina();
+         
+         // Se estable la variable que controla los límites de visibilidad del mapa
+         var bounds = new google.maps.LatLngBounds();
+         // Se añade la condición de que los límites incluyan dos puntos dados
+         bounds.extend(new google.maps.LatLng(39.4374,-0.4299));
+         bounds.extend(new google.maps.LatLng(39.5034,-0.3243));
+         
+         // Opciones de mapa
+         var misOpciones = {
+            center: centro,
+            scaleControl: true,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeControlOptions: {
+               position: google.maps.ControlPosition.TOP_LEFT}
+         };
+
+         // Define el mapa principal, lo vincula a su contenedor y ajusta su zoom
+         map = new google.maps.Map(document.getElementById("map"),misOpciones);
+         map.fitBounds(bounds);
+         
+         // Inicializa la ventana de mapa secundaria
+
+         var overlayMap = new google.maps.Map(
+           document.getElementById('overlay_map'), {
+           mapTypeId: google.maps.MapTypeId.ROADMAP, 
+           disableDefaultUI: true
+         });
+
+         // Definimos unos listeners que sincronizan los niveles de zoom de las dos ventanas
+         // de mapa con 3 niveles de diferencia
+
+         google.maps.event.addListener(map, 'zoom_changed', function() {
+           var newZoom = Math.max(map.getZoom() - 4, 0);
+           if (overlayMap.getZoom() != newZoom) overlayMap.setZoom(newZoom);
+         });
+         google.maps.event.addListener(overlayMap, 'zoom_changed', function() {
+           var newZoom = overlayMap.getZoom() + 4;
+           if (map.getZoom() != newZoom) map.setZoom(newZoom);
+         });
+
+         // Sincronizamos también los centros de ambos mapas 
+         overlayMap.bindTo('center', map, 'center');
+
+         // Vinculamos la ventana de mapa secundaria a la principal
+         // estableciendo su posicionamiento relativo
+
+         var overDiv = overlayMap.getDiv();
+         map.getDiv().appendChild(overDiv);
+         overDiv.style.position = "absolute";
+         overDiv.style.right = "0px";
+         overDiv.style.bottom = "14px";
+         overDiv.style.zIndex = 10;
+         
+         // Y también el botón de control de visibilidad de la vetana secundaria
+         var overDiv = document.getElementById("controlOverlayMap");
+         map.getDiv().appendChild(overDiv);
+         overDiv.style.position = "absolute";
+         overDiv.style.right = "0px";
+         overDiv.style.bottom = "14px";
+         overDiv.style.zIndex = 11;
+
+         google.maps.event.addListener(overlayMap, 'idle', function() {
+           overlayMap.getDiv().style.zIndex = 10;
+         });
+         
+         
+         // Dibujamos la marca de casa en la dirección inicial
+         mi_marca = new crearMiMarca(casa,miMensaGlobo,imgCasa,sombraCasa);
+         
+         // Listener que resitúa el mapa al centro después de cerrar el infoGlobo
+         google.maps.event.addListener(infoGlobo, "closeclick", function() {
+            map.setCenter(centro);
+            Globo = false;
+         });
+         
+         // Listener que al hacer click en mapa, si hay globo abierto, lo cierra y resitúa el mapa
+         google.maps.event.addListener(map, "click", function(){
+              if (Globo) { 
+               infoGlobo.close();
+               map.setCenter(centro);
+               Globo = false;
+            }
+         });
+         
+         // DragZoom con tecla "mayús"
+         map.enableKeyDragZoom({
+            key: "alt",
+            boxStyle: {
+               border: "2px dashed black",
+               backgroundColor: "red",
+               opacity: 0.5
+            },
+            paneStyle: {
+               backgroundColor: "gray",
+               opacity: 0.2
+            }
+         });
+
+         
+         // Actualizamos la primera opción del select "selectTipoBusqueda" con la nueva dirección a buscar
+         document.getElementById("selectTipoBusqueda").options[0] = new Option("Para: "+direccionAbuscar+"","direc");
+         // y la establecemos como opción de búsqueda actual
+         document.getElementById("selectTipoBusqueda").value= "direc";
+         tipoBusqueda = "direccion";
+         document.getElementById("radioBusqueda").value= "0";
+         document.getElementById("calleynumero").value= "Plaza del Ayuntamiento 1";
+         
+         // Volvemos el select y la establecemos como opción de búsqueda actual
+         document.getElementById("TipoOtrosRecursos").value= "500";
+         otTipo = 500;
+                  
+                  
+         // añadido para el calculo de rutas
+         
+            // Asociamos el div 'informeRuta' a las direcciones que devuelve Google
+            // y muestra en el mapa el resultado de la ruta
+            directionsDisplay = new google.maps.DirectionsRenderer();
+            directionsService = new google.maps.DirectionsService();
+            directionsDisplay.setMap(map);
+            directionsDisplay.setPanel(document.getElementById("informeRuta"));  
+            // Para recoger los errores si los hubiera  
+            //GEvent.addListener(gdir, "error", erroresCalculoRuta);  
+
+         // fin añadido para el calculo de rutas
+
+         // Lee los datos contenidos en la tabla "parroquias" de la base de datos 
+         // y los almacena en diferentes listas globales
+         descarga_prqs();
+         
+         // Lee los datos contenidos en la tabla "cmssv" de la base de datos 
+         // y los almacena en diferentes listas globales
+         descarga_cmssv();
+         
+         // Lee los datos contenidos en la tabla "contenedoresintra" de la base de datos 
+         // y los almacena en diferentes listas globales
+         descarga_cintra();
+         
+         // Lee los datos contenidos en la tabla "tiendas_arropa" de la base de datos 
+         // y los almacena en diferentes listas globales
+         descarga_arropa();
+         
+         // Lee los datos contenidos en la tabla "otros_recursos" de la base de datos 
+         // y los almacena en diferentes listas globales
+         descarga_ot();         
+
+      }// fin function load()
+      
+   
+      function vaciarInforme() {
+         document.getElementById("informe").innerHTML= "";
+         document.getElementById("listaInforme").innerHTML= "";
+      }
+      
+      function vistaPreviaInforme(contenido) {
+         var ficha = document.getElementById(contenido);
+         var ventimp = window.open(' ');
+         ventimp.document.write("<div style='font-family: Arial; font-size: 0.8em;'><h2>Informe de recursos sociales localizados</h2><hr>"+ficha.innerHTML+"</div>");
+      } 
+
+      function imprInforme(contenido) {
+         var ficha = document.getElementById(contenido);
+         var ventimp = window.open(' ', 'popimpr');
+         ventimp.document.write("<div style='font-family: Arial; font-size: 0.8em;'><h2>Informe de recursos sociales localizados</h2><hr>"+ficha.innerHTML+"</div>");
+         ventimp.document.close();
+         ventimp.print();
+         ventimp.close();
+      } 
+
+
+      function limpiaTexto(Texto) {
+         Texto.value = ""
+      }
+      
+      function overlayMap() {
+         if (mostrarOverlayMap) {
+            document.getElementById("overlay_map").style.visibility = 'hidden';
+            mostrarOverlayMap = false;
+            document.getElementById("botonOverlayMap").src = "imagenes/overlaymap_mostrar.png";          
+         }
+         else {
+            document.getElementById("overlay_map").style.visibility = 'visible';   
+            mostrarOverlayMap = true;
+            document.getElementById("botonOverlayMap").src = "imagenes/overlaymap_ocultar.png";
+         }
+      }
+
+   </script>
+   
+   <script type="text/javascript">
+
+   var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-21755115-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+   </script>
+   
+</head>
+
+<body onload="load()">
+
+   <div id="todo" class="clase_principal">
+
+   <!-- ********************************************************************************** -->   
+   <!-- *******************    Cabecera     ********************************************** -->
+   <!-- ********************************************************************************** -->  
+   <div id="cabecera">
+      <div id="titulo">
+         <h1><a href="http://caritasespanola.org/localizador/valencia.html">
+            Localizador de Recursos Sociales en Valencia</a></h1>
+      </div>
+      <div id="logos">
+         <a href="http://www.caritasvalencia.org/">
+            <img title="Cáritas Diocesana de Valencia"
+                 src="imagenes/logo_caritas.png" 
+                 width= "35" height = "35"
+                 border="0">
+         </a>
+         <a href="http://www.utopika.upv.es/">
+            <img title="Utopika"
+                 src="imagenes/logo_utopika.png" 
+                 width= "35" height = "35"
+                 border="0">
+         </a>
+      </div>
+   </div>
+   <!-- *************** fin cabecera ************************************* -->
+
+      
+   <!-- ********************************************************************************** -->   
+   <!-- ****************    Ventana mapa     ********************************************* -->
+   <!-- ********************************************************************************** -->
+   <div id="map"></div>
+   <div id="overlay_map"></div>
+   
+      <!-- ******* Botón para mostrar/ocultar el panel lateral de Herramientas *********** -->
+           
+      <div id="controlOverlayMap">
+         <input title="Activar/Desactivar Ventana de mapa secundaria"
+             id="botonOverlayMap"
+             type="image" 
+             src="imagenes/overlaymap_ocultar.png"
+             onclick="overlayMap()" />   
+      </div>   
+   
+   <!-- ************** fin ventana mapa ********************************** -->
+   
+      
+      <!-- *************** Columna lateral ********************************** -->
+
+      <div id="lateral">
+      
+         <!-- ****************************************************************************** -->   
+         <!-- **********************   Dirección    **************************************** -->
+         <!-- ****************************************************************************** --> 
+      
+         <div id="direccion">
+         
+            <h2><strong>Pon aquí tu dirección:</strong></h2>
+            
+            <form name="busquedaForm" 
+                  onsubmit="situaDireccion(); return false">
+               <div id="BloqueCalleyNumero" class="texto">
+                  Calle y número:<br> 
+                  <input type="text" 
+                         onfocus="limpiaTexto(this)" 
+                         value="Plaza del Ayuntamiento 1"
+                         class="cajas" 
+                         id="calleynumero"/>
+               </div>
+               <div id="BloqueLocalidad" class="texto">
+                  Localidad:<br> 
+                  <select id="localidad" class="cajas" style="height: 23px;">
+                     <option value="Valencia" 
+                             selected>Valencia</option>
+		     <option value="Alcoy">Alcoy</option>
+		     <option value="Gandia">Gandia</option>
+                     <option value="Mislata">Mislata</option>
+		     <option value="Paterna">Paterna</option>
+		     <option value="Sagunto">Sagunto</option>
+                     <option value="Xirivella">Xirivella</option>
+                   </select>
+               </div>
+               <div id="ir">
+                  <input title="Ir..."
+                         type="image" 
+                         src="imagenes/buscar.png" />
+               </div>
+            </form>
+            <div id="posiblesResultados" class="cajas"></div>
+         </div><!--dirección-->
+          
+         
+         
+         <!-- ****************************************************************************** -->   
+         <!-- ************ Selecciona recursos y tipo de búsqueda ************************** -->
+         <!-- ****************************************************************************** --> 
+     
+         <div id="recursos">
+         
+            <div id="TituloSelecRecursos"><h2>Selecciona recursos y tipo de búsqueda:</h2></div>
+            <div id="LimpiarMapa">
+               <input title="Limpiar mapa"
+                      type="image"
+                      onclick="limpia_mapa()"
+                      src="imagenes/limpiar.png" />
+            </div>
+            
+            <!-- *************************************************************************** -->   
+            <!-- ************** Botones mostrar-ocular elementos *************************** -->
+            <!-- *************************************************************************** --> 
+            
+            <div id="botones">
+            
+               <a title="Cáritas Parroquiales" 
+                  onmouseout="marcas_parroquias_out();" 
+                  onmouseover="marcas_parroquias_over();" 
+                  href="javascript:marcas_parroquias()">
+                     <IMG name="locCaritas" 
+                          src = "imagenes/loc_desactivados_caritas.png" 
+                          alt= "Localización de las Cáritas Parroquiales" 
+                          width= "40" height = "40" border = "0">
+               </a>
+               
+               <a title="Demarcaciones Cáritas Parroquiales" 
+                  onmouseout="demarcaciones_prq_out();" 
+                  onmouseover="demarcaciones_prq_over();" 
+                  href="javascript:demarcaciones_prq()" />
+                     <IMG name="areasCaritas" 
+                          src = "imagenes/areas_desactivadas_caritas.png" 
+                          alt= "Demarcaciones de las Cáritas Parroquiales" 
+                          width= "40" height = "40" border = "0">
+               </a>
+               
+               <a title="Centros Municipales Servicios Sociales" 
+                  onmouseout="marcas_cmssv_out();" 
+                  onmouseover="marcas_cmssv_over();" 
+                  href="javascript:marcas_cmssv()">
+                     <IMG name="locCMSSV" 
+                          src = "imagenes/loc_desactivados_CMSSV.png" 
+                          alt= "Localización Centros Servicios Sociales Municipales" 
+                          width= "40" height = "40" border = "0">
+               </a>
+               
+               <a title="Áreas Servicios Sociales Municipales" 
+                  onmouseout="demarcaciones_cmssv_out();" 
+                  onmouseover="demarcaciones_cmssv_over();" 
+                  href="javascript:demarcaciones_cmssv()" />
+                     <IMG name="areasCMSSV" 
+                          src = "imagenes/areas_desactivadas_CMSSV.png" 
+                          alt= "Areas de Servicios Sociales Municipales" 
+                          width= "40" height = "40" border = "0">
+               </a>
+               
+               <a title="Contenedores @ropa (Fundación INTRA - Cáritas)" 
+                  onmouseout="marcas_cINTRA_out();" 
+                  onmouseover="marcas_cINTRA_over();" 
+                  href="javascript:marcas_cINTRA()">
+                     <IMG name="cINTRA" 
+                          src = "imagenes/loc_desactivados_contenINTRA.png" 
+                          alt= "Localización de los contenedores de ropa de Cáritas (INTRA)" 
+                          width= "40" height = "40" border = "0">
+               </a>
+               
+               <a title="Tiendas @rropa (Fundación INTRA - Cáritas)" 
+                  onmouseout="marcas_arropa_out();" 
+                  onmouseover="marcas_arropa_over();" 
+                  href="javascript:marcas_arropa()">
+                     <IMG name="arropa" 
+                          src = "imagenes/loc_desactivadas_arropa.png" 
+                          alt= "Localización de las tiendas de ropa de Cáritas (INTRA)" 
+                          width= "40" height = "40" border = "0">
+               </a>
+               
+               <a title="Otros recursos sociales" 
+                  onmouseout="marcas_ot_out();" 
+                  onmouseover="marcas_ot_over();" 
+                  href="javascript:marcas_ot()">
+                     <IMG name="ot" 
+                          src = "imagenes/loc_desactivados_ot.png" 
+                          alt= "Localización de otroa recursos sociales" 
+                          width= "40" height = "40" border = "0">
+               </a>
+               
+            </div> <!-- botones -->   
+            <!-- Fin Botones mostrar-ocular elementos -->   
+            
+            <!-- ****************************************************************************** -->   
+            <!-- *********************   Tipo de búsqueda   *********************************** -->
+            <!-- ****************************************************************************** --> 
+           
+            <form name="tipobusquedaForm">
+            
+               <div id="tipobusqueda" class="cajas">
+                  <select style="width: 115px; height: 23px;" id="selectTipoBusqueda" 
+                          onchange="cambiaTipoBusqueda()" 
+                          class="cajas">
+                          <option value="direc" selected>Para: Plaza del Ayuntamiento, 1, 46002 Valencia, España</option>
+                          <option value="radio">A menos de...</option>
+                          <option value="todas">Ver todas</option>
+                  </select>
+               </div>
+
+               <div id="paraRadio" class="texto">
+                     <select id="radioBusqueda" 
+                           onchange="cambiaRadio()" 
+                           style="width: 70px; height: 23px;"
+                           class="cajas">
+                           <option value="0" selected>Radio</option>
+                           <option value="500" >500 m.</option>
+                           <option value="1000">1000 m.</option>
+                           <option value="1500">1500 m.</option>
+                           <option value="2000">2000 m.</option>
+                           <option value="2500">2500 m.</option>
+                           <option value="3000">3000 m.</option>
+                           <option value="3500">3500 m.</option>
+                           <option value="4000">4000 m.</option>
+                           <option value="4500">4500 m.</option>
+                           <option value="5000">5000 m.</option>
+                           <option value="5500">5500 m.</option>
+                           <option value="6000">6000 m.</option>
+                           <option value="6500">6500 m.</option>
+                           <option value="7000">7000 m.</option>
+                           <option value="7500">7500 m.</option>
+                           <option value="8000">8000 m.</option>
+                           <option value="8500">8500 m.</option>
+                           <option value="9000">9000 m.</option>
+                           <option value="9500">9500 m.</option>
+                           <option value="10000">10000 m.</option>
+                           <option value="60000">60000 m.</option>
+                     </select>
+               </div>
+               
+               <div id="selectTipoOtros" class="texto">
+                     <select id="TipoOtrosRecursos" 
+                           onchange="cambiaTipoOtrosRecursos()" 
+                           style="width: 120px; height: 23px;"
+                           class="cajas">
+                           <option value="500">-Otros recursos-</option>
+                           <option value="501">Adicciones</option> 
+                           <option value="502">Cooperación internacional</option> 
+                           <option value="503">Discapacidad</option> 
+                           <option value="504">Familia, menor y adopciones</option> 
+                           <option value="505">Juventud</option> 
+                           <option value="506">Mayores</option> 
+                           <option value="507">Migrantes</option> 
+                           <option value="508">Minorías étnicas</option> 
+                           <option value="509">Mujer</option> 
+                           <option value="510">Presos y ex-reclusos</option> 
+                           <option value="511">Sin techo</option> 
+                           <option value="512">Enfermedad Mental</option>
+                           <option value="513">Servicios sociales de base</option>
+                           <option value="514">Empleo</option>
+                           <option value="515">Vivienda</option>
+                           <option value="516">Salud</option>
+                           <option value="517">Educación y formación</option>
+                           <option value="518">Jurídico legal</option>
+                           <option value="519">Necesidades básicas</option>
+                     </select>
+               </div>
+               
+            </form>
+   
+         </div> <!-- recursos -->
+
+         
+         <!-- ****************************************************************************** -->   
+         <!-- ******************   Cálculo de rutas   ************************************** -->
+         <!-- ****************************************************************************** -->
+         
+         <div id="calculoRuta">
+         
+            <div id="TituloCalculoRuta"><h2>Cáculo de rutas:</h2></div>
+            <form name="form_ruta" class="texto"
+                  onclick="tipoRuta()">
+                  <div id="aPie">
+                      <input type="radio" 
+                             name="tipo" 
+                             value="1" checked />
+                             A pie
+                  </div>          
+                  <div id="enCoche">
+                      <input type="radio" 
+                             name="tipo" 
+                             value="2" /> 
+                             En coche
+                  </div>
+               </form>
+               
+               <div id="LimpiarRuta">
+                   <input title="Limpiar ruta"
+                          type="image"
+                          onclick="quitarRuta()"
+                          src="imagenes/limpiar.png" />
+               </div>
+               
+               <div id="informeRuta" class="cajas"></div> 
+               
+         </div> <!-- calculoRuta -->
+         
+         
+         <!-- ****************************************************************************** -->   
+         <!-- ******************   Imprimir informe   ************************************** -->
+         <!-- ****************************************************************************** -->
+         
+         <div id="imprimirInforme">
+         
+            <div id="botonVaciar">
+               <input title="Vaciar informe"
+                   type="image"
+                   onclick="vaciarInforme()"
+                   src="imagenes/limpiar.png" />
+            </div>
+            
+            <div id="seccionInforme">
+               <div id="TituloSeccionInforme"><h2>Informe:</h2></div>
+               <div id="botonVistaPrevia" title="Ver vista previa">
+                  <a href="javascript:vistaPreviaInforme('informe')"></a>
+               </div>
+               <div id="botonImprimir" title="Imprimir informe">
+                  <a href="javascript:imprInforme('informe')"></a>
+               </div>
+            </div>
+            
+            <div id="listaInforme" class="cajas2" ></div>  
+                         
+            <div id="informe"></div>
+            
+         </div> <!-- imprimirInforme -->
+
+
+         <!-- ******************************************************************************* -->   
+         <!-- ****************** Licencia y administración ********************************** -->
+         <!-- ******************************************************************************* -->
+     
+         <div class="cajas2" id="licenciayadmin">
+            <a rel="license" 
+               title="Esta obra está bajo una licencia de Creative Commons Reconocimiento-NoComercial-CompartirIgual 3.0 Unported"
+               href="http://creativecommons.org/licenses/by-nc-sa/3.0/es/">
+               <img alt="Licencia de Creative Commons" 
+                    style="border-width:0" 
+                    src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" /></a> 
+            <a href="edicion/">   Administración   </a>
+            <a href="generador.html"> Generador </a>           
+         </div>
+      
+      </div> <!--lateral-->   
+
+   </div> <!--todo-->
+
+   <!-- ******************************************************************************* -->   
+   <!-- ******* Botón para mostrar/ocultar el panel lateral de Herramientas *********** -->
+   <!-- ******************************************************************************* -->
+      
+   <div id="controlHerramientas">
+      <input title="Activar/Desactivar panel"
+             id="actDesPanel"
+             type="image" 
+             src="imagenes/ocultar_panel.png"
+             onclick="capaHerramientas()" />   
+   </div>
+
+</body>
+
+</html>
+
