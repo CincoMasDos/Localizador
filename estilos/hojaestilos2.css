@@ -1,421 +1,426 @@
-	/*.clase_principal {alpha( opacity = 50 );opacity:0.5;}*/
-	.clase_principal {opacity:1;} /*{opacity:0.5;}*/
+  /*.clase_principal {alpha( opacity = 50 );opacity:0.5;}*/
+  .clase_principal {opacity:1;} /*{opacity:0.5;}*/
 
-	.clase_cargando {
-		position:absolute;
-		top:0px;
-		left:0px;
-		width:100%;
-		height:100%;
-	}
+  .clase_cargando {
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+  }
 
 body {
-	background-color: #4B4B4B;
-	background-image: url("cabecera.png");
-	background-repeat: repeat-x;
-	background-position: top center;
-	background-attachment: scroll; 
-	font-family: arial, verdana, sans-serif;
-	font-size: 0.9em;
-	/*color: white;*/
+  background-color: #4B4B4B;
+  background-image: url("cabecera.png");
+  background-repeat: repeat-x;
+  background-position: top center;
+  background-attachment: scroll; 
+  font-family: arial, verdana, sans-serif;
+  font-size: 0.9em;
+  /*color: white;*/
 }
 
 
 h1 {
-	float: left;
-	margin: 6px 0 0 0;
-	font-family: arial, verdana, sans-serif;
-	color: white;
-	font-size: 2em;
-	font-weight: bold;
-	/*position: relative;*/
+  float: left;
+  margin: 6px 0 0 0;
+  font-family: arial, verdana, sans-serif;
+  color: white;
+  font-size: 2em;
+  font-weight: bold;
+  /*position: relative;*/
 }
 
 
 h2 {
-	clear: both; 
-	margin:0 0 2px 0;
-	font-family: arial, verdana, sans-serif;
-	color: white;
-	font-size: 1em;
-	font-weight: bold;
+  clear: both; 
+  margin:0 0 2px 0;
+  font-family: arial, verdana, sans-serif;
+  color: white;
+  font-size: 1em;
+  font-weight: bold;
 }
 
 a {
-	font-family: arial, verdana, sans-serif;
-	color: white;
-	text-decoration:none; 
+  font-family: arial, verdana, sans-serif;
+  color: white;
+  text-decoration:none; 
 }
 
 a:hover {
-	color:orange;
-	text-decoration:none;
+  color:orange;
+  text-decoration:none;
 }
 
 ul,li { 
-	list-style-type: disc;
+  list-style-type: disc;
 } 
 
 strong,b {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 
 .texto {
-	font-family: arial, verdana, sans-serif;
-	color: white;
-	font-size: 0.95em;
+  font-family: arial, verdana, sans-serif;
+  color: white;
+  font-size: 0.95em;
 }
 
 .cajas {
-	font-family: arial, verdana, sans-serif;
-	font-size: 0.9em;
+  font-family: arial, verdana, sans-serif;
+  font-size: 0.9em;
 }
 
 .cajas2 {
-	font-family: arial, verdana, sans-serif;
-	font-size: 0.85em;
-	color: white;
-	/*font-weight: bold;*/
+  font-family: arial, verdana, sans-serif;
+  font-size: 0.85em;
+  color: white;
+  /*font-weight: bold;*/
 }
 .globos {
-	font-family: arial, verdana, sans-serif;
-	font-size: 0.85em;
-	margin: 3px; /*importante para que al ejecutar los enlaces javascript, 
-						no salgan las barras laterales*/
+  font-family: arial, verdana, sans-serif;
+  font-size: 0.85em;
+  margin: 3px; /*importante para que al ejecutar los enlaces javascript, 
+            no salgan las barras laterales*/
 }
 
 .globos a {
-	font-family: arial, verdana, sans-serif;
-	color: blue;
-	text-decoration: none; 
+  font-family: arial, verdana, sans-serif;
+  color: blue;
+  text-decoration: none; 
 }
 
 .globos a:hover {
-	text-decoration: underline; 
+  text-decoration: underline; 
 }
 
 
 
 .globos2 { /*Para la marca casa*/
-	font-family: arial, verdana, sans-serif;
-	font-size: 0.85em;
-	width: 300px;
-	margin: 0; /*importante para que al ejecutar los enlaces javascript, 
-						no salgan las barras laterales*/
+  font-family: arial, verdana, sans-serif;
+  font-size: 0.85em;
+  width: 300px;
+  margin: 0; /*importante para que al ejecutar los enlaces javascript, 
+            no salgan las barras laterales*/
 }
 
 
 /* ******* Cabecera ****** */
 #titulo {
-	position: absolute;
-	top: 0;
-	left: 15px;
-	height: 40px;
-	width: 860px;
-}	
+  position: absolute;
+  top: 0;
+  left: 15px;
+  height: 40px;
+  width: 860px;
+}  
 #logos { 
-	position: absolute;
-	top: 4px;
-	right: 40px;
-	height: 40px;
+  position: absolute;
+  top: 4px;
+  right: 40px;
+  height: 40px;
 }
 
 
 /* ******* Mapa ******* */
 #map {
-	margin: 48px 0 0 0;
-	width: 100%; 
-	height: 100%;	
+  margin: 48px 0 0 0;
+  width: 100%; 
+  height: 100%;
+  z-index: 1;  
 }
 
 #overlay_map{width:175px; height:175px; 
   border: solid 3px #ffffff; 
   border-width: 3px 0 1px 3px;
+  z-index: 2;
 }
 
 /* **** Control mapa de posición **** */
 
 #controlOverlayMap {
-	width: 13px;
-	height: 13px; 
+  width: 13px;
+  height: 13px; 
+  z-index: 3;
 }
 
 /* ******* Herramientas ******* */
 
 #controlHerramientas {
-	position: absolute;
-	top: 55px;
-	right: 10px;
-	width: 13px;
-	height: 13px; 
-	padding: 0;
+  position: absolute;
+  top: 55px;
+  right: 10px;
+  width: 13px;
+  height: 13px; 
+  padding: 0;
+  z-index: 5;
 }
 
 #lateral {
-	position: absolute;
-	top: 55px;
-	right: 10px;
-	width: 328px;
-	padding: 13px;
-	background-color: #4B4B4B;
-	opacity:0.7;
+  position: absolute;
+  top: 55px;
+  right: 10px;
+  width: 328px;
+  padding: 13px;
+  background-color: #4B4B4B;
+  opacity:0.7;
+  z-index: 4;
 }
 
 
-	#direccion { border: 1px solid orange;
-		float: left;
-		position: relative;
-		margin: 0 0 0 0;
-		padding: 8px 8px 8px 8px; 
-		width: 312px;		
-	}
-	
-		#BloqueCalleyNumero { 
-			float: left;
-			position: relative;
-			top: 2px;
-			left: 1px;
-		}
-			#BloqueCalleyNumero input{ 
-				width: 180px; 
-				height: 22px;
-				/*border: 0;*/
-			}
-		#BloqueLocalidad { 
-			float: left;
-			position: relative;
-			width: 90px;
-			top: 2px;
-			left: 5px;
-		}
-			#BloqueLocalidad select{ 
-				width: 85px; 
-				height: 23px;
-			}
-		#ir { 
-			float: left;
-			position: relative;
-			margin: 18px 0 0 5px;
-			height: 22px;
-		}
-		#posiblesResultados { 
-			float: left;
-			position: relative;
-			margin: 2px 0 0 0;
-			width: 96%; 
-			color: white;
-		}
-			#posiblesResultados a { 
-				color: #FFFF66;
-				text-decoration:none; 
-			}
+  #direccion { border: 1px solid orange;
+    float: left;
+    position: relative;
+    margin: 0 0 0 0;
+    padding: 8px 8px 8px 8px; 
+    width: 312px;    
+  }
+  
+    #BloqueCalleyNumero { 
+      float: left;
+      position: relative;
+      top: 2px;
+      left: 1px;
+    }
+      #BloqueCalleyNumero input{ 
+        width: 180px; 
+        height: 22px;
+        /*border: 0;*/
+      }
+    #BloqueLocalidad { 
+      float: left;
+      position: relative;
+      width: 90px;
+      top: 2px;
+      left: 5px;
+    }
+      #BloqueLocalidad select{ 
+        width: 85px; 
+        height: 23px;
+      }
+    #ir { 
+      float: left;
+      position: relative;
+      margin: 18px 0 0 5px;
+      height: 22px;
+    }
+    #posiblesResultados { 
+      float: left;
+      position: relative;
+      margin: 2px 0 0 0;
+      width: 96%; 
+      color: white;
+    }
+      #posiblesResultados a { 
+        color: #FFFF66;
+        text-decoration:none; 
+      }
 
-			#posiblesResultados a:hover {
-				color:orange;
-				text-decoration:none;
-			}	
-		
+      #posiblesResultados a:hover {
+        color:orange;
+        text-decoration:none;
+      }  
+    
 
-	#recursos { border: 1px solid orange;
-		float: left;
-		position: relative;
-		margin: 11px 0 0 0;
-		padding: 0 0 12px 8px;
-		width: 320px; 
-	}	
-		#TituloSelecRecursos { 
-			float: left;
-			position: relative;
-			margin: 8px 0 0 0;
-			height: 23px;
-		}
-		#LimpiarMapa { 
-			float: left;
-			position: relative;
-			top: 0;
-			left: 12px;			
-		}
-		#botones { 
-			float: left;
-			position: relative;
-			top: 2px;
-			left: 0;
-			margin: 0 0 0 0;
-			width: 312px; 
-		}
-		#tipobusqueda { 
-			float: left;
-			position: relative;
-			top: 3px;
-			left: 0px;
-			/*width: 150px;*/ /*200px;*/
-			height: 23px;
-		}
-		#paraRadio { 
-			float: left;
-			position: relative;
-			top: 3px;
-			left: 0px;
-			/*width: 60px; */
-			height: 23px;
-		}
-		#selectTipoOtros { 
-			float: left;
-			position: relative;
-			top: 3px;
-			left: 0px;
-			/*width: 60px; */
-			height: 23px;
-		}
+  #recursos { border: 1px solid orange;
+    float: left;
+    position: relative;
+    margin: 11px 0 0 0;
+    padding: 0 0 12px 8px;
+    width: 320px; 
+  }  
+    #TituloSelecRecursos { 
+      float: left;
+      position: relative;
+      margin: 8px 0 0 0;
+      height: 23px;
+    }
+    #LimpiarMapa { 
+      float: left;
+      position: relative;
+      top: 0;
+      left: 12px;      
+    }
+    #botones { 
+      float: left;
+      position: relative;
+      top: 2px;
+      left: 0;
+      margin: 0 0 0 0;
+      width: 312px; 
+    }
+    #tipobusqueda { 
+      float: left;
+      position: relative;
+      top: 3px;
+      left: 0px;
+      /*width: 150px;*/ /*200px;*/
+      height: 23px;
+    }
+    #paraRadio { 
+      float: left;
+      position: relative;
+      top: 3px;
+      left: 0px;
+      /*width: 60px; */
+      height: 23px;
+    }
+    #selectTipoOtros { 
+      float: left;
+      position: relative;
+      top: 3px;
+      left: 0px;
+      /*width: 60px; */
+      height: 23px;
+    }
 
-	
-	#calculoRuta { border: 1px solid orange;
-		float: left;
-		position: relative;
-		margin: 11px 0 0 0;
-		padding: 0 0 8px 8px;
-		width: 320px;
-		/*width: 312px;*/
-	}	
-		#TituloCalculoRuta { 
-			float: left;
-			position: relative;
-			margin: 8px 0 0 0;
-			height: 23px;
-		}
-		#aPie { 
-			float: left;
-			position: relative;
-			margin: 8px 0 0 0;
-			left: 10px;
-			height: 23px;
-		}
-		#enCoche { 
-			float: left;
-			position: relative;
-			margin: 8px 0 0 0;
-			left: 20px;
-			height: 23px;
-		}
-		#LimpiarRuta { 
-			float: right;
-			position: relative;
-			top: 0;
-			/*left: 20px;*/
-			right: 2px;		
-		}
-		#informeRuta { 
-			float: left;
-			position: relative;
-			overflow:auto;
-			margin: 2px 0 0 0;
-			width: 96%; 
-			height: 145px;
-			color: orange;
-		}
-			#informeRuta a { 
-				color: #FFFF66;
-				text-decoration:none; 
-			}
+  
+  #calculoRuta { border: 1px solid orange;
+    float: left;
+    position: relative;
+    margin: 11px 0 0 0;
+    padding: 0 0 8px 8px;
+    width: 320px;
+    /*width: 312px;*/
+  }  
+    #TituloCalculoRuta { 
+      float: left;
+      position: relative;
+      margin: 8px 0 0 0;
+      height: 23px;
+    }
+    #aPie { 
+      float: left;
+      position: relative;
+      margin: 8px 0 0 0;
+      left: 10px;
+      height: 23px;
+    }
+    #enCoche { 
+      float: left;
+      position: relative;
+      margin: 8px 0 0 0;
+      left: 20px;
+      height: 23px;
+    }
+    #LimpiarRuta { 
+      float: right;
+      position: relative;
+      top: 0;
+      /*left: 20px;*/
+      right: 2px;    
+    }
+    #informeRuta { 
+      float: left;
+      position: relative;
+      overflow:auto;
+      margin: 2px 0 0 0;
+      width: 96%; 
+      height: 145px;
+      color: orange;
+    }
+      #informeRuta a { 
+        color: #FFFF66;
+        text-decoration:none; 
+      }
 
-			#informeRuta a:hover {
-				color:orange;
-				text-decoration:none;
-			}	
-		
-			#informeRuta table { 
-				background-color: #4B4B4B;	
-				color: white;
-				font-family: arial, verdana, sans-serif;
-				font-size: 0.9em;
-			}
-			
+      #informeRuta a:hover {
+        color:orange;
+        text-decoration:none;
+      }  
+    
+      #informeRuta table { 
+        background-color: #4B4B4B;  
+        color: white;
+        font-family: arial, verdana, sans-serif;
+        font-size: 0.9em;
+      }
+      
 
-		
-	#imprimirInforme { border: 1px solid orange;
-		float: left;
-		position: relative;
-		margin: 11px 0 0 0;
-		padding: 0 0 8px 8px;
-		width: 320px;
-		/*width: 312px;*/
-	}
-		#botonVaciar { 
-			float: right;
-			position: relative;
-			top: 0;
-			right: 2px;	
-		}
-	
-		#seccionInforme { 
-			float: left;
-			position: relative;
-			margin: 8px 0 0 0;
-			width: 65px; 
-		}		
-			#TituloSeccionInforme { 
-				float: left;
-				position: relative;
-				margin: 0 0 0 0;
-				height: 23px;
-			}
-			#botonVistaPrevia a { 
-				float: left;
-				position: relative;
-				margin: 4px 0 10px 0;
-				height: 23px;
-				width: 27px;
-				background-image:url(img/vista_previa.png);
-				background-repeat: no-repeat;
-			}
-				#botonVistaPrevia a:hover{
-					background-image:url(img/vista_previa_on.png);
-					background-repeat: no-repeat;
-				}
-			#botonImprimir a { 
-				float: left;
-				position: relative;
-				margin: 4px 0 10px 0;
-				height: 23px;
-				width: 27px;
-				background-image:url(img/imprimir.png);
-				background-repeat: no-repeat;
-			}
-				#botonImprimir a:hover{
-					background-image:url(img/imprimir_on.png);
-					background-repeat: no-repeat;
-				}
+    
+  #imprimirInforme { border: 1px solid orange;
+    float: left;
+    position: relative;
+    margin: 11px 0 0 0;
+    padding: 0 0 8px 8px;
+    width: 320px;
+    /*width: 312px;*/
+  }
+    #botonVaciar { 
+      float: right;
+      position: relative;
+      top: 0;
+      right: 2px;  
+    }
+  
+    #seccionInforme { 
+      float: left;
+      position: relative;
+      margin: 8px 0 0 0;
+      width: 65px; 
+    }    
+      #TituloSeccionInforme { 
+        float: left;
+        position: relative;
+        margin: 0 0 0 0;
+        height: 23px;
+      }
+      #botonVistaPrevia a { 
+        float: left;
+        position: relative;
+        margin: 4px 0 10px 0;
+        height: 23px;
+        width: 27px;
+        background-image:url(img/vista_previa.png);
+        background-repeat: no-repeat;
+      }
+        #botonVistaPrevia a:hover{
+          background-image:url(img/vista_previa_on.png);
+          background-repeat: no-repeat;
+        }
+      #botonImprimir a { 
+        float: left;
+        position: relative;
+        margin: 4px 0 10px 0;
+        height: 23px;
+        width: 27px;
+        background-image:url(img/imprimir.png);
+        background-repeat: no-repeat;
+      }
+        #botonImprimir a:hover{
+          background-image:url(img/imprimir_on.png);
+          background-repeat: no-repeat;
+        }
 
-		#listaInforme { 
-			float: right;
-			position: relative;
-			margin: 12px 0 0 0;
-			right: 2px;
-			width: 215px; /*230px;*/ 
-		}
-			#listaInforme ul,li{ 
-				margin: 0; 
-			}
-		#informe { 
-			height: 0;
-			width: 0; 
-			visibility:hidden;
-			overflow:auto;
-		}
+    #listaInforme { 
+      float: right;
+      position: relative;
+      margin: 12px 0 0 0;
+      right: 2px;
+      width: 215px; /*230px;*/ 
+    }
+      #listaInforme ul,li{ 
+        margin: 0; 
+      }
+    #informe { 
+      height: 0;
+      width: 0; 
+      visibility:hidden;
+      overflow:auto;
+    }
 
 
         #licenciayadmin { 
-		float: left;
-		position: relative;
-		text-align: center;
-		margin: 0;
-		padding: 5px;
-		width: 338px;		
-	}
-		
+    float: left;
+    position: relative;
+    text-align: center;
+    margin: 0;
+    padding: 5px;
+    width: 338px;    
+  }
+    
 
 /*border: 1px solid orange;*/
-	
-	
-	
+  
+  
+  
