@@ -56,6 +56,8 @@ function cambiaUnidadMinima() {
         for (i=2; i<11; i++) {
           select.options[j+i-2]=new Option(""+arciprestazgos[i][1]+"",""+arciprestazgos[i][0]+"");
         }
+        select.options[j+i-2]=new Option(""+arciprestazgos[17][1]+"",""+arciprestazgos[17][0]+""); //Incluido Arcip.16 Sants de la Pedra
+        select.options[j+i-2+1]=new Option(""+arciprestazgos[29][1]+"",""+arciprestazgos[29][0]+""); //Incluido Arcip.28 Mare de Déu dels Lliris
         //j=j+i;
         //for (i=0; i<comarcas.length; i++) {
         //   select.options[j+i] = new Option(""+comarcas[i][1]+"",""+comarcas[i][0]+"");
