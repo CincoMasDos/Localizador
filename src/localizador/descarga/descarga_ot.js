@@ -38,7 +38,7 @@ function descarga_ot() {
       // Preparamos los elementos que aparecerán en el globo
       if (telefono != "") {telefono = telefono+"&nbsp;";}
       if (e_mail != "") {e_mail = e_mail+"&nbsp;";}
-      if (url != "") {url2 = "<b>Web</b>: "+url;}
+      if (url != "") {var url2 = "<b>Web</b>: "+url;}
       if (url != "") {url = "<a href='"+url+"'>Web</a>";}
         if (telefono != "" ||  e_mail != "" || url != "") {
           var telefono_e_mail_url = "<br>"+telefono+e_mail+url+"<br>";

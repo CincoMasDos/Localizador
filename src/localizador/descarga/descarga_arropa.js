@@ -20,7 +20,16 @@ function descarga_arropa() {
 			var lat = arropa[a].getAttribute("lat");
 			var lng = arropa[a].getAttribute("lng");
 			var loc = new google.maps.LatLng(parseFloat(lat),parseFloat(lng));
-			var mensaGlobo = "<img src='estilos/img/globos-arropa.png' width='60' height='20'><strong> Tienda "+nombre+"</strong><hr>"+
+
+				// Determinamos la imagen del logo de la tienda en el globo, en función de la diocesana (por defecto, la de Valencia)
+				var logoGloboTien;
+				switch(iddiocesana) {
+					case 146: logoGloboTien = "<img src='estilos/img/146-logoglobotien.png' width='58' height='35'>"; break;
+					case 219: logoGloboTien = "<img src='estilos/img/globos-arropa.png' width='60' height='20'>"; break;
+					default: logoGloboTien = "<img src='estilos/img/globos-arropa.png' width='60' height='20'>";
+				} 
+
+			var mensaGlobo = logoGloboTien+"<strong> Tienda "+nombre+"</strong><hr>"+
 				""+direccion+" ("+localidad+")<br>"+
 				""+telefono+" "+e_mail+"<br>"+
 				"<strong>Horario: </strong>"+horario+"<br>"+
