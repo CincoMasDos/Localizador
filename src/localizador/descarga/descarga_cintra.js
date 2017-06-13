@@ -27,7 +27,6 @@ function descarga_cintra() {
           default: imgCont = "<img src='estilos/img/contenedor_arropa.jpg' width='90' height='135'>";
         } 
          
-      //var mensaGlobo = "Contenedor @ropa:<br><strong>"+nombre+"</strong><br>"+imgCont+"<br><br>";
       // Determinamos el mensaje del globo del contenedor en función de la diocesana 
       // (por defecto, la de Valencia)
       var mensaGlobo;
@@ -35,8 +34,8 @@ function descarga_cintra() {
         case 146: mensaGlobo = "Contenedor de ropa (Koopera – Cáritas) :<br><strong>"+nombre+
                                "</strong><br>"+direccion+"<br>"+CP+" "+localidad+"<br><br>"+
                                descripcion+"<br><br>"+imgCont+"<br><br>"; break;
-        case 219: imgCont = "<img src='estilos/img/contenedor_arropa.jpg' width='90' height='135'>"; break;
-        default: imgCont = "<img src='estilos/img/contenedor_arropa.jpg' width='90' height='135'>";
+        case 219: mensaGlobo = "Contenedor @ropa:<br><strong>"+direccion+"</strong><br>"+imgCont+"<br><br>";
+        default: mensaGlobo = "Contenedor @ropa:<br><strong>"+direccion+"</strong><br>"+imgCont+"<br><br>";
       } 
       
       // Añade a las listas globales las variables a almacenar de cada contenedor
