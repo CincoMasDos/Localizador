@@ -171,7 +171,7 @@ if ($tipo=="parroquias") {
     $arcip = $row['field_prq_id_arcip_value'].". ".utf8_encode($row['nombre_arcip']);
     $nuevo_nodo->setAttribute("nombre_arcip",$arcip);  
     //$nuevo_nodo->setAttribute("CP",$row['field_prq_cp_value']);
-    //$nuevo_nodo->setAttribute("localidad",utf8_encode($row['field_prq_localidad_value']));      
+    $nuevo_nodo->setAttribute("localidad",utf8_encode($row['field_prq_localidad_value']));      
     $nuevo_nodo->setAttribute("nombre",utf8_encode($row['field_prq_nombre_value']));                
     $nuevo_nodo->setAttribute("observaciones",utf8_encode($row['field_prq_observaciones_value']));  
     $nuevo_nodo->setAttribute("direccion",utf8_encode($row['field_prq_direcccion_value']));      

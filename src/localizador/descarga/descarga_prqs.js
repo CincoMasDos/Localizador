@@ -13,7 +13,7 @@ function descarga_prqs() {
       var nombre = parroquias[a].getAttribute("nombre");
       var direccion = parroquias[a].getAttribute("direccion");
       //var CP = parroquias[a].getAttribute("CP");
-      //var localidad = parroquias[a].getAttribute("localidad");
+      var localidad = parroquias[a].getAttribute("localidad");
       var telefono = parroquias[a].getAttribute("telefono");
       var fax = parroquias[a].getAttribute("fax");
       var e_mail = parroquias[a].getAttribute("e-mail");
@@ -61,7 +61,7 @@ function descarga_prqs() {
               
       var mensaGlobo = "<img src='estilos/img/globos-caritas.png' width='20' height='20'>"+
         "<strong>&nbsp;&nbsp;CÁRITAS "+nombre+"</strong>"+
-        "<br><hr><strong>Direccion</strong>: "+direccion+""+
+        "<br><hr><strong>Direccion</strong>: "+direccion+" ("+localidad+")"+
         telefono+fax+e_mail_url+
         atencion+
         "<br><br>"+observaciones+ 
