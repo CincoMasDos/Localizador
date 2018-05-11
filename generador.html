@@ -8,7 +8,6 @@
            
  <script type="text/javascript" src="src/otros/keydragzoom_packed.js" ></script>
  <script type="text/javascript" src="src/otros/markerwithlabel.js"></script>
- <script type="text/javascript" src="jOverviewMapControlV3.min.js"></script>
  <script type="text/javascript" src="src/listenerAbrirGlobo.js" ></script>
  <script type="text/javascript" src="src/limitesPolyXML.js" ></script>
  <script type="text/javascript" src="src/generador/descarga/descargaAux_generador.js"></script>
@@ -36,10 +35,8 @@
  <script type="text/javascript" src="src/generador/calculaGVF.js" ></script>
  <script type="text/javascript" src="src/informe.js" ></script>
  <script type="text/javascript" src="src/generador/otros/geostats.js" ></script>
- <script type="text/javascript" src="src/generador/otros/jenks.util.js" ></script>      
-      
- <!--<link rel="stylesheet" type="text/css" 
-       href="http://yui.yahooapis.com/2.8.2r1/build/reset/reset-min.css">--> 
+ <script type="text/javascript" src="src/generador/otros/jenks.util.js" ></script>  
+
  <link rel="stylesheet" type="text/css" href="estilos/reset.css" /> <!--Reseteador de estilos-->
  <link rel="stylesheet" type="text/css" href="estilos/hojaestilos_generador.css" />
    
@@ -70,6 +67,9 @@
    
    var etiqLeyenda;                // Leyendas colocadas como etiquetas para que sean móviles
    var etiqLeyendaLimites; 
+
+   var imgMarcaArrastrar = 'imagenes/marcaArrastrar.png';
+   var imgMarcaInvisible = 'imagenes/marcaInvisible.png';
             
    // Variables que recogen los valores de los formularios de consulta
       
@@ -398,7 +398,7 @@
       document.getElementById("fondoBlanco").checked = false;
       document.getElementById("fondoNegro").checked = false;
       document.getElementById("controles").checked = true;
-      document.getElementById("escalagrafica").checked = true;
+      document.getElementById("marcasArrastre").checked = true;
       document.getElementById("capaLeyenda").checked = false;
       document.getElementById("capaLeyendaLimites").checked = false;
       document.getElementById("capaFondoPrq").checked = false;
@@ -933,9 +933,9 @@
          <div id="bloqueElementos2" class="texto">
          
             <input type="checkbox" 
-                   id="escalagrafica"
-                   onclick="escalagrafica()"
-                   title="Escala gráfica"> Escala<br>
+                   id="marcasArrastre"
+                   onclick="marcasArrastre()"
+                   title="Marcas para arrastrar">Arrastre<br>
                    
             <input type="checkbox" 
                    id="controles"
@@ -1105,7 +1105,8 @@
                  style="border-width:0" 
                  src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" /></a> 
          <a href="edicion/">   Administración   </a>
-         <a href="index.html"> Localizador </a>           
+         <a href="index.html"> Localizador </a>
+         <a href="Generador_Mapas_Sociales_Valencia-Descripcion_y_manual.pdf"> Ayuda </a>           
       </div>
       
    </div> <!--lateral-->   

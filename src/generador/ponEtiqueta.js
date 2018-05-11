@@ -16,6 +16,7 @@
 //    marca    
 // Variables globales:
 //    map
+//    imgMarcaArrastrar
 
 function ponEtiqueta(punto,etiqueta,estilo) {
    var marker = new MarkerWithLabel({
@@ -27,5 +28,10 @@ function ponEtiqueta(punto,etiqueta,estilo) {
       labelClass: estilo, // la clase CSS para la etiqueta
       labelStyle: {opacity: 0.75}
    });
+   checkboxCapa = document.getElementById("marcasArrastre");
+   if (checkboxCapa.checked) {
+     marker.setIcon(imgMarcaArrastrar);
+   }
+   else marker.setIcon(imgMarcaInvisible);
    return marker;
 }

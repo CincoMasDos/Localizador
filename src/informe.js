@@ -16,4 +16,4 @@ function imprInforme(contenido) {
 	ventimp.document.close();
 	ventimp.print();
 	ventimp.close();
-} 
+}

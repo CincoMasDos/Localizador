@@ -6,7 +6,7 @@
 // ***************************      fondoBlanco()       ******************************************
 // ***************************      fondoNegro()        ******************************************
 // ***************************       controles()        ******************************************
-// ***************************     escalagrafica()      ******************************************
+// ***************************     marcasArrastre()      ******************************************
 // ***************************      capaLeyenda()       ******************************************
 // ***************************     capaFondoLim(id)     ******************************************
 // ***************************   auxGrosorLim(grosor)   ******************************************
@@ -137,6 +137,39 @@ function fondoNegro() {
 }
 
 
+// ************* Marcas de arrastre *********************
+
+function marcasArrastre() {
+   checkboxCapa = document.getElementById("marcasArrastre");
+   var checkboxCapa2 = document.getElementById("capaEtiquetasConsultas");
+   if (checkboxCapa.checked) {
+      if (checkboxCapa2.checked) {
+        for (var i = 0; i < etiqConsulta.length; i++) {
+          etiqConsulta[i][0].setIcon(imgMarcaArrastrar);
+        }
+      }
+      if (hayLeyenda) {
+        etiqLeyenda.setIcon(imgMarcaArrastrar);
+      }
+      if (hayLeyendaLimites) {
+        etiqLeyendaLimites.setIcon(imgMarcaArrastrar);
+      }
+   }
+   else {      
+      if (checkboxCapa2.checked) {
+        for (var i = 0; i < etiqConsulta.length; i++) {
+          etiqConsulta[i][0].setIcon(imgMarcaInvisible);
+        }
+      }
+      if (hayLeyenda) {
+        etiqLeyenda.setIcon(imgMarcaInvisible);
+      }
+      if (hayLeyendaLimites) {
+        etiqLeyendaLimites.setIcon(imgMarcaInvisible);
+      }
+   }
+}
+
 
 // *********************** Capa controles de mapa de Google Maps *******************************
 
@@ -158,27 +191,6 @@ function controles() {
       map.setOptions(misOpciones);         
    }
 }
-
-
-
-// *********************** Capa escala gráfica de Google Maps *******************************
-
-function escalagrafica() {
-   checkboxCapa = document.getElementById("escalagrafica");
-   if (checkboxCapa.checked) {
-      var misOpciones = {
-         scaleControl: true
-      };
-      map.setOptions(misOpciones);
-   }
-   else {
-      var misOpciones = {
-         scaleControl: false
-      };
-      map.setOptions(misOpciones);         
-   }
-}
-
 
 
 // ******************* Capa Leyenda de la/s consulta/s realizada/s *******************************
